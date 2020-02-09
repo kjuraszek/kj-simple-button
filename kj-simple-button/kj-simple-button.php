@@ -17,8 +17,8 @@ class KJ_Simple_Floating_Button {
 	static $instance = false;
 
     public function __construct() {
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts'));
-
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts') );
+		add_action( 'wp_footer' , array($this, 'kj_simple_button_append_button') );
     }
 
 	public static function getInstance() {
@@ -29,6 +29,11 @@ class KJ_Simple_Floating_Button {
 	
     public function enqueue_scripts() {
         wp_enqueue_style('KJ_Simple_Floating_Button', plugins_url('assets/css/style.css', __FILE__), null, '');
+	}
+	
+	public function kj_simple_button_append_button(){
+		echo '<!-- #kj-simple-button -->';
+		echo '<a href="#" id="kj-simple-button">KJ</a>';
 	}
 
 }
