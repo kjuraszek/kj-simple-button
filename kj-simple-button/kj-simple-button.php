@@ -16,11 +16,21 @@ class KJ_Simple_Floating_Button {
 	
 	static $instance = false;
 
+	static $default_options = array(
+		"kj_simple_button_height_value" => 90, 
+		"kj_simple_button_height_unit" => "px", 
+		"kj_simple_button_width_value" => 90, 
+		"kj_simple_button_width_unit" => "px", 
+		"kj_simple_button_href_value" => "#", 
+		"kj_simple_button_rel_value" => "", 
+		"kj_simple_button_target_value" => "");
+
     public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts') );
 		add_action( 'admin_menu', array($this, 'kj_simple_button_add_admin_menu') );
 		add_action( 'admin_init', array($this, 'kj_simple_button_settings_init') );
 		add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), array($this, 'kj_simple_button_add_plugin_page_settings_link') );
+		add_action( 'update_option_kj_simple_button_settings' , array($this, 'kj_simple_button_update_stylesheet') , 10 , 3);
 		add_action( 'wp_footer' , array($this, 'kj_simple_button_append_button') );
     }
 
@@ -30,8 +40,61 @@ class KJ_Simple_Floating_Button {
 		return self::$instance;
 	}
 	
+	public static function kj_simple_button_activate() {
+		register_uninstall_hook(__FILE__, array('KJ_Simple_Floating_Button', 'kj_simple_button_uninstall' ));
+		if(!file_exists( plugin_dir_path(__FILE__) . "assets/css/custom-style.css" )){
+			$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
+			$creation_date = date('Y-m-d H:i:s', strtotime(current_time('mysql')));
+			$css_header = <<< EOD
+/* THIS FILE IS GENERATED AUTOMATICALLY VIA PLUGIN, DO NOT EDIT */
+/* GENERATED: $creation_date */
+EOD;
+			fwrite($handle, $css_header);
+			fclose($handle);
+		}
+		$default_options = self::$default_options;
+		$current_options = get_option( "kj_simple_button_settings" );
+		if(isset($current_options) && (!empty($current_options))){
+			if(!empty(array_diff_key($default_options, $current_options))){
+				foreach($default_options as $key => $value){
+					if(!isset($current_options[$key])){
+						$current_options[$key] = $value;
+					}
+				}
+				update_option( "kj_simple_button_settings", $current_options );
+			}
+		} else {
+			add_option( "kj_simple_button_settings" , $default_options);
+		}
+		
+		
+	}
+
+	public static function kj_simple_button_uninstall() {
+		delete_option( "kj_simple_button_settings" );
+	}
+
+	public function kj_simple_button_update_stylesheet( $option_name, $old_value, $value ) {
+		$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
+		$creation_date = date('Y-m-d H:i:s', strtotime(current_time('mysql')));
+		$css_header = <<< EOD
+/* THIS FILE IS GENERATED AUTOMATICALLY VIA PLUGIN OPTIONS, DO NOT EDIT */
+/* GENERATED: $creation_date */
+a#kj-simple-button{\n
+EOD;
+		fwrite($handle, $css_header);
+
+		fwrite($handle, "\theight: " . $this->kj_simple_button_get_option('kj_simple_button_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_height_unit', false) . ";\n");
+		fwrite($handle, "\twidth: " . $this->kj_simple_button_get_option('kj_simple_button_width_value', false) . $this->kj_simple_button_get_option('kj_simple_button_width_unit', false) . ";\n");
+
+		fwrite($handle, "}\n");
+		
+		fclose($handle);
+	}
+
     public function enqueue_scripts() {
-        wp_enqueue_style('KJ_Simple_Floating_Button', plugins_url('assets/css/style.css', __FILE__), null, '');
+		wp_enqueue_style('KJ_Simple_Floating_Button', plugins_url('assets/css/style.css', __FILE__), null, '');
+		wp_enqueue_style('KJ_Simple_Floating_Button_custom', plugins_url('assets/css/custom-style.css', __FILE__), null, '');
 	}
 	
 	public function kj_simple_button_add_admin_menu(  ) { 
@@ -50,6 +113,16 @@ class KJ_Simple_Floating_Button {
 		echo '<a href="#" id="kj-simple-button">KJ</a>';
 	}
 
+	public function kj_simple_button_get_option($option_name, $empty) {
+		$default_options  = self::$default_options;
+		$current_options = get_option( "kj_simple_button_settings" );
+		if(isset($current_options[$option_name]) && ($empty || !empty($current_options[$option_name]))){ 
+			return $current_options[$option_name];
+		} else {
+			return $default_options[$option_name];
+		}
+	}
+
 	public function kj_simple_button_settings_init(  ) { 
 		
 		register_setting( 'kjSettingsPage', 'kj_simple_button_settings' );
@@ -59,6 +132,55 @@ class KJ_Simple_Floating_Button {
 			array($this, 'kj_simple_button_settings_section_callback'), 
 			'kjSettingsPage'
 		);
+
+		add_settings_field( 
+			'kj_simple_button_height_field', 
+			__( 'Height', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_height_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_width_field', 
+			__( 'Width', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_width_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+	}
+
+	public function kj_simple_button_height_field_render(  ) { 
+
+		$height = $this->kj_simple_button_get_option('kj_simple_button_height_value', false);
+		$height_unit = $this->kj_simple_button_get_option('kj_simple_button_height_unit', false);
+		
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_height_value]'  min='0' step='0.1'value=<?php echo $height; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_height_unit]'> 
+			<option value='px' <?php selected( $height_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $height_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $height_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Some text.</em></p>
+		<?php
+
+	}
+
+	public function kj_simple_button_width_field_render(  ) { 
+
+		$width = $this->kj_simple_button_get_option('kj_simple_button_width_value', false);
+		$width_unit = $this->kj_simple_button_get_option('kj_simple_button_width_unit', false);
+		
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_width_value]' min='0' step='0.1' value=<?php echo $width; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_width_unit]'> 
+			<option value='px' <?php selected( $width_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Some text.</em></p>
+		<?php
+
 	}
 
 	public function kj_simple_button_settings_section_callback(  ) { 
@@ -91,5 +213,6 @@ class KJ_Simple_Floating_Button {
 
 	
 $KJ_Simple_Floating_Button = KJ_Simple_Floating_Button::getInstance();
+register_activation_hook(__FILE__, array('KJ_Simple_Floating_Button', 'kj_simple_button_activate'));
 
 ?>
