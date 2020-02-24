@@ -110,7 +110,13 @@ EOD;
 
 	public function kj_simple_button_append_button(){
 		echo '<!-- #kj-simple-button -->';
-		echo '<a href="#" id="kj-simple-button">KJ</a>';
+		echo '<a ';
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_href_value', true)) ? 'href="' . $this->kj_simple_button_get_option('kj_simple_button_href_value', true) . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_rel_value', true)) ? 'rel="' . $this->kj_simple_button_get_option('kj_simple_button_rel_value', true) . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_target_value', true)) ? 'target="' . $this->kj_simple_button_get_option('kj_simple_button_target_value', true) . '" ' : '' ;
+		echo 'id="kj-simple-button" >';
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value', true)) ? $this->kj_simple_button_get_option('kj_simple_button_content_value', true) : '' ;
+		echo '</a>';
 	}
 
 	public function kj_simple_button_get_option($option_name, $empty) {
@@ -118,8 +124,10 @@ EOD;
 		$current_options = get_option( "kj_simple_button_settings" );
 		if(isset($current_options[$option_name]) && ($empty || !empty($current_options[$option_name]))){ 
 			return $current_options[$option_name];
-		} else {
+		} elseif(!$empty) {
 			return $default_options[$option_name];
+		} else {
+			return "";
 		}
 	}
 
@@ -146,6 +154,40 @@ EOD;
 			array($this, 'kj_simple_button_width_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_section(
+			'kj_simple_button_kjSettingsPage_section_misc', 
+			__( 'Miscellaneous settings', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_settings_section_callback'), 
+			'kjSettingsPage'
+		);
+		add_settings_field( 
+			'kj_simple_button_href_field', 
+			__( 'Href', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_href_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
+		);
+		add_settings_field( 
+			'kj_simple_button_rel_field', 
+			__( 'Rel', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_rel_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
+		);
+		add_settings_field( 
+			'kj_simple_button_target_field', 
+			__( 'Target', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_target_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
+		);
+		add_settings_field( 
+			'kj_simple_button_content_field', 
+			__( 'Content', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_content_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
 		);
 	}
 
@@ -179,6 +221,52 @@ EOD;
 			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
 		</select>
 		<p><em>Some text.</em></p>
+		<?php
+
+	}
+
+	public function kj_simple_button_href_field_render(  ) { 
+
+		$href = $this->kj_simple_button_get_option('kj_simple_button_href_value', true);
+		
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_href_value]' value="<?php echo $href; ?>"> (leave empty if don't need this)
+
+		<p><em>Href attribute, eg. <strong>https://google.com</strong></em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_rel_field_render(  ) { 
+
+		$rel = $this->kj_simple_button_get_option('kj_simple_button_rel_value', true);
+		
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_rel_value]' value="<?php echo $rel; ?>"> (leave empty if don't need this)
+
+		<p><em>Rel attribute, eg. <strong>noindex</strong></em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_target_field_render(  ) { 
+
+		$target = $this->kj_simple_button_get_option('kj_simple_button_target_value', true);
+		
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_target_value]' value="<?php echo $target; ?>"> (leave empty if don't need this)
+		<p><em>Target attribute, eg. <strong>_blank</strong></em></p>
+		<?php
+
+	}
+
+	public function kj_simple_button_content_field_render(  ) { 
+
+		$content = $this->kj_simple_button_get_option('kj_simple_button_content_value', true);
+		
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_content_value]' value="<?php echo $content; ?>"> (leave empty if don't need this)
+		<p><em>Text inside button, eg. <strong>Check this out!</strong></em></p>
 		<?php
 
 	}
