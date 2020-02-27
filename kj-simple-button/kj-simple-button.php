@@ -20,7 +20,13 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_height_value" => 90, 
 		"kj_simple_button_height_unit" => "px", 
 		"kj_simple_button_width_value" => 90, 
-		"kj_simple_button_width_unit" => "px", 
+		"kj_simple_button_width_unit" => "px",
+		"kj_simple_button_horizontal_position" => "left", 
+		"kj_simple_button_horizontal_position_value" => 0,  
+		"kj_simple_button_horizontal_position_unit" => "px",
+		"kj_simple_button_vertical_position" => "bottom", 
+		"kj_simple_button_vertical_position_value" => 0,  
+		"kj_simple_button_vertical_position_unit" => "px", 
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "");
@@ -86,6 +92,8 @@ EOD;
 
 		fwrite($handle, "\theight: " . $this->kj_simple_button_get_option('kj_simple_button_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_height_unit', false) . ";\n");
 		fwrite($handle, "\twidth: " . $this->kj_simple_button_get_option('kj_simple_button_width_value', false) . $this->kj_simple_button_get_option('kj_simple_button_width_unit', false) . ";\n");
+		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false) . ";\n");
+		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false) . ";\n");
 
 		fwrite($handle, "}\n");
 		
@@ -122,7 +130,7 @@ EOD;
 	public function kj_simple_button_get_option($option_name, $empty) {
 		$default_options  = self::$default_options;
 		$current_options = get_option( "kj_simple_button_settings" );
-		if(isset($current_options[$option_name]) && ($empty || !empty($current_options[$option_name]))){ 
+		if(isset($current_options[$option_name]) && ($empty || strval($current_options[$option_name]) === "0" || !empty($current_options[$option_name]))){ 
 			return $current_options[$option_name];
 		} elseif(!$empty) {
 			return $default_options[$option_name];
@@ -152,6 +160,20 @@ EOD;
 			'kj_simple_button_width_field', 
 			__( 'Width', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_width_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_horizontal_position', 
+			__( 'Horizontal position', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_horizontal_position_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_vertical_position', 
+			__( 'Vertical position', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_vertical_position_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
@@ -219,6 +241,54 @@ EOD;
 			<option value='px' <?php selected( $width_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Some text.</em></p>
+		<?php
+
+	}
+
+	public function kj_simple_button_horizontal_position_field_render(  ) { 
+
+
+		$position = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false);
+		$position_value = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false);
+		$position_unit = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false);
+		
+		?>
+		<select name='kj_simple_button_settings[kj_simple_button_horizontal_position]'> 
+			<option value='left' <?php selected( $position, 'left' ); ?>>left</option>
+			<option value='right' <?php selected( $position, 'right' ); ?>>right</option>
+		</select>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo $		$position = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false);
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_horizontal_position_unit]'> 
+			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $position_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Some text.</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_vertical_position_field_render(  ) { 
+
+
+		$position = $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false);
+		$position_value = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false);
+		$position_unit = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false);
+		
+		?>
+		<select name='kj_simple_button_settings[kj_simple_button_vertical_position]'> 
+			<option value='top' <?php selected( $position, 'top' ); ?>>top</option>
+			<option value='bottom' <?php selected( $position, 'bottom' ); ?>>bottom</option>
+		</select>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo $		$position = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false);
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_vertical_position_unit]'> 
+			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $position_unit, 'em' ); ?>>em</option>
 		</select>
 		<p><em>Some text.</em></p>
 		<?php
