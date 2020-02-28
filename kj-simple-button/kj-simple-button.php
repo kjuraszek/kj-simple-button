@@ -26,7 +26,12 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_horizontal_position_unit" => "px",
 		"kj_simple_button_vertical_position" => "bottom", 
 		"kj_simple_button_vertical_position_value" => 0,  
-		"kj_simple_button_vertical_position_unit" => "px", 
+		"kj_simple_button_vertical_position_unit" => "px",
+		"kj_simple_button_text_align_value" => "center", 
+		"kj_simple_button_font_size_value" => 12, 
+		"kj_simple_button_font_size_unit" => "px",
+		"kj_simple_button_line_height_value" => 16, 
+		"kj_simple_button_line_height_unit" => "px",
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "");
@@ -94,7 +99,10 @@ EOD;
 		fwrite($handle, "\twidth: " . $this->kj_simple_button_get_option('kj_simple_button_width_value', false) . $this->kj_simple_button_get_option('kj_simple_button_width_unit', false) . ";\n");
 		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false) . ";\n");
 		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false) . ";\n");
-
+		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false) . ";\n");
+		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
+		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
+		
 		fwrite($handle, "}\n");
 		
 		fclose($handle);
@@ -177,6 +185,27 @@ EOD;
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
+		add_settings_field( 
+			'kj_simple_button_text_align', 
+			__( 'Text align', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_text_align_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_font_size', 
+			__( 'Font size', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_font_size_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_line_height', 
+			__( 'Line height', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_line_height_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
 		add_settings_section(
 			'kj_simple_button_kjSettingsPage_section_misc', 
 			__( 'Miscellaneous settings', 'kj-simple-button' ), 
@@ -225,7 +254,7 @@ EOD;
 			<option value='%' <?php selected( $height_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $height_unit, 'em' ); ?>>em</option>
 		</select>
-		<p><em>Some text.</em></p>
+		<p><em>Height of a button</em></p>
 		<?php
 
 	}
@@ -242,7 +271,7 @@ EOD;
 			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
 		</select>
-		<p><em>Some text.</em></p>
+		<p><em>Width of a button</em></p>
 		<?php
 
 	}
@@ -259,14 +288,14 @@ EOD;
 			<option value='left' <?php selected( $position, 'left' ); ?>>left</option>
 			<option value='right' <?php selected( $position, 'right' ); ?>>right</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo $		$position = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false);
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo $position_value;
 ; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_horizontal_position_unit]'> 
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $position_unit, 'em' ); ?>>em</option>
 		</select>
-		<p><em>Some text.</em></p>
+		<p><em>Horizontal position of a button</em></p>
 		<?php
 
 	}
@@ -283,14 +312,66 @@ EOD;
 			<option value='top' <?php selected( $position, 'top' ); ?>>top</option>
 			<option value='bottom' <?php selected( $position, 'bottom' ); ?>>bottom</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo $		$position = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false);
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo $position_value;
 ; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_vertical_position_unit]'> 
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $position_unit, 'em' ); ?>>em</option>
 		</select>
-		<p><em>Some text.</em></p>
+		<p><em>Vertical position of a button</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_text_align_field_render(  ) { 
+
+		$text_align = $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false);
+		
+		?>
+		<select name='kj_simple_button_settings[kj_simple_button_text_align_value]'> 
+			<option value='left' <?php selected( $text_align, 'left' ); ?>>left</option>
+			<option value='right' <?php selected( $text_align, 'right' ); ?>>right</option>
+			<option value='center' <?php selected( $text_align, 'center' ); ?>>center</option>
+			<option value='justify' <?php selected( $text_align, 'justify' ); ?>>justify</option>
+		</select>
+		<p><em>Text align</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_font_size_field_render(  ) { 
+
+
+		$font_size = $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false);
+		$font_size_unit = $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false);
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_font_size_value]' min='0' step='0.1' value=<?php echo $font_size;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_font_size_unit]'> 
+			<option value='px' <?php selected( $font_size_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $font_size_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $font_size_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Font size</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_line_height_field_render(  ) { 
+
+
+		$line_height = $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false);
+		$line_height_unit = $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false);
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_line_height_value]' min='0' step='0.1' value=<?php echo $line_height;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_line_height_unit]'> 
+			<option value='px' <?php selected( $line_height_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $line_height_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $line_height_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
 		<?php
 
 	}
