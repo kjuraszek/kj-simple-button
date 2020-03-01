@@ -15,7 +15,6 @@ Text Domain: kj-simple-button
 class KJ_Simple_Floating_Button {
 	
 	static $instance = false;
-
 	static $default_options = array(
 		"kj_simple_button_height_value" => 90, 
 		"kj_simple_button_height_unit" => "px", 
@@ -32,10 +31,28 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_font_size_unit" => "px",
 		"kj_simple_button_line_height_value" => 16, 
 		"kj_simple_button_line_height_unit" => "px",
+		"kj_simple_button_padding_top_value" => 5,
+		"kj_simple_button_padding_top_unit" => "px",
+		"kj_simple_button_padding_right_value" => 5,
+		"kj_simple_button_padding_right_unit" => "px",
+		"kj_simple_button_padding_bottom_value" => 5,
+		"kj_simple_button_padding_bottom_unit" => "px",
+		"kj_simple_button_padding_left_value" => 5,
+		"kj_simple_button_padding_left_unit" => "px",
+		"kj_simple_button_margin_top_value" => 5,
+		"kj_simple_button_margin_top_unit" => "px",
+		"kj_simple_button_margin_right_value" => 5,
+		"kj_simple_button_margin_right_unit" => "px",
+		"kj_simple_button_margin_bottom_value" => 5,
+		"kj_simple_button_margin_bottom_unit" => "px",
+		"kj_simple_button_margin_left_value" => 5,
+		"kj_simple_button_margin_left_unit" => "px",
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
-		"kj_simple_button_target_value" => "");
-
+		"kj_simple_button_target_value" => "", 
+		"kj_simple_button_content_value" => "");
+		
+		
     public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts') );
 		add_action( 'admin_menu', array($this, 'kj_simple_button_add_admin_menu') );
@@ -43,6 +60,7 @@ class KJ_Simple_Floating_Button {
 		add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), array($this, 'kj_simple_button_add_plugin_page_settings_link') );
 		add_action( 'update_option_kj_simple_button_settings' , array($this, 'kj_simple_button_update_stylesheet') , 10 , 3);
 		add_action( 'wp_footer' , array($this, 'kj_simple_button_append_button') );
+		$this->plugin_options = get_option( "kj_simple_button_settings" );
     }
 
 	public static function getInstance() {
@@ -64,7 +82,7 @@ EOD;
 			fclose($handle);
 		}
 		$default_options = self::$default_options;
-		$current_options = get_option( "kj_simple_button_settings" );
+		$current_options = $this->plugin_options;
 		if(isset($current_options) && (!empty($current_options))){
 			if(!empty(array_diff_key($default_options, $current_options))){
 				foreach($default_options as $key => $value){
@@ -102,6 +120,14 @@ EOD;
 		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false) . ";\n");
 		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
 		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
+		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false) . ";\n");
+		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false) . ";\n");
+		fwrite($handle, "\tpadding-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit', false) . ";\n");
+		fwrite($handle, "\tpadding-left: " . $this->kj_simple_button_get_option('kj_simple_button_padding_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit', false) . ";\n");
+		fwrite($handle, "\tmargin-top: " . $this->kj_simple_button_get_option('kj_simple_button_margin_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false) . ";\n");
+		fwrite($handle, "\tmargin-right: " . $this->kj_simple_button_get_option('kj_simple_button_margin_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false) . ";\n");
+		fwrite($handle, "\tmargin-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) . ";\n");
+		fwrite($handle, "\tmargin-left: " . $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) . ";\n");
 		
 		fwrite($handle, "}\n");
 		
@@ -137,7 +163,7 @@ EOD;
 
 	public function kj_simple_button_get_option($option_name, $empty) {
 		$default_options  = self::$default_options;
-		$current_options = get_option( "kj_simple_button_settings" );
+		$current_options = $this->plugin_options;
 		if(isset($current_options[$option_name]) && ($empty || strval($current_options[$option_name]) === "0" || !empty($current_options[$option_name]))){ 
 			return $current_options[$option_name];
 		} elseif(!$empty) {
@@ -203,6 +229,20 @@ EOD;
 			'kj_simple_button_line_height', 
 			__( 'Line height', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_line_height_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_padding', 
+			__( 'Padding', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_padding_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_margin', 
+			__( 'Margin', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_margin_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
@@ -375,6 +415,108 @@ EOD;
 		<?php
 
 	}
+	
+	public function kj_simple_button_padding_field_render(  ) { 
+
+
+		$padding_top = $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false);
+		$padding_top_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false);
+		$padding_right = $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false);
+		$padding_right_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false);
+		$padding_bottom = $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value', false);
+		$padding_bottom_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit', false);
+		$padding_left = $this->kj_simple_button_get_option('kj_simple_button_padding_left_value', false);
+		$padding_left_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit', false);
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_top_value]' min='0' step='0.1' value=<?php echo $padding_top;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_padding_top_unit]'> 
+			<option value='px' <?php selected( $padding_top_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $padding_top_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $padding_top_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo $padding_right;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_padding_right_unit]'> 
+			<option value='px' <?php selected( $padding_right_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $padding_right_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $padding_right_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_bottom_value]' min='0' step='0.1' value=<?php echo $padding_bottom;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_padding_bottom_unit]'> 
+			<option value='px' <?php selected( $padding_bottom_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $padding_bottom_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $padding_bottom_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_left_value]' min='0' step='0.1' value=<?php echo $padding_left;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_padding_left_unit]'> 
+			<option value='px' <?php selected( $padding_left_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $padding_left_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $padding_left_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_margin_field_render(  ) { 
+
+
+		$margin_top = $this->kj_simple_button_get_option('kj_simple_button_margin_top_value', false);
+		$margin_top_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false);
+		$margin_right = $this->kj_simple_button_get_option('kj_simple_button_margin_right_value', false);
+		$margin_right_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false);
+		$margin_bottom = $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false);
+		$margin_bottom_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false);
+		$margin_left = $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false);
+		$margin_left_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false);
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' min='0' step='0.1' value=<?php echo $margin_top;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_margin_top_unit]'> 
+			<option value='px' <?php selected( $margin_top_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $margin_top_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' min='0' step='0.1' value=<?php echo $margin_right;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_margin_right_unit]'> 
+			<option value='px' <?php selected( $margin_right_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $margin_right_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' min='0' step='0.1' value=<?php echo $margin_bottom;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_margin_bottom_unit]'> 
+			<option value='px' <?php selected( $margin_bottom_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $margin_bottom_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' min='0' step='0.1' value=<?php echo $margin_left;
+; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_margin_left_unit]'> 
+			<option value='px' <?php selected( $margin_left_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $margin_left_unit, 'em' ); ?>>em</option>
+		</select>
+		<p><em>Line height</em></p>
+		<?php
+
+	}
 
 	public function kj_simple_button_href_field_render(  ) { 
 
@@ -436,7 +578,6 @@ EOD;
 			<h2>KJ Simple Button</h2>
 
 			<?php
-
 			settings_fields( 'kjSettingsPage' );
 			do_settings_sections( 'kjSettingsPage' );
 			submit_button();
