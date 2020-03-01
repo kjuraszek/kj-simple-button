@@ -113,23 +113,31 @@ EOD;
 a#kj-simple-button{\n
 EOD;
 		fwrite($handle, $css_header);
-
-		fwrite($handle, "\theight: " . $this->kj_simple_button_get_option('kj_simple_button_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_height_unit', false) . ";\n");
-		fwrite($handle, "\twidth: " . $this->kj_simple_button_get_option('kj_simple_button_width_value', false) . $this->kj_simple_button_get_option('kj_simple_button_width_unit', false) . ";\n");
+		$height_css = "\theight: " . ($this->kj_simple_button_get_option('kj_simple_button_height_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_height_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_height_unit', false) . ";\n";
+		fwrite($handle, $height_css);
+		$width_css = "\twidth: " . ($this->kj_simple_button_get_option('kj_simple_button_width_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_width_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_width_unit', false) . ";\n";
+		fwrite($handle, $width_css);
+		
 		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false) . ";\n");
 		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false) . ";\n");
 		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false) . ";\n");
 		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
 		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
+		
 		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false) . ";\n");
 		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false) . ";\n");
 		fwrite($handle, "\tpadding-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit', false) . ";\n");
 		fwrite($handle, "\tpadding-left: " . $this->kj_simple_button_get_option('kj_simple_button_padding_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit', false) . ";\n");
-		fwrite($handle, "\tmargin-top: " . $this->kj_simple_button_get_option('kj_simple_button_margin_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false) . ";\n");
-		fwrite($handle, "\tmargin-right: " . $this->kj_simple_button_get_option('kj_simple_button_margin_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false) . ";\n");
-		fwrite($handle, "\tmargin-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) . ";\n");
-		fwrite($handle, "\tmargin-left: " . $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) . ";\n");
+
+		$margin_top_css = "\tmargin-top: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_top_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false) . ";\n";
+		fwrite($handle, $margin_top_css);
+		$margin_right_css = "\tmargin-right: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_right_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false) . ";\n";
+		fwrite($handle, $margin_right_css);
+		$margin_bottom_css = "\tmargin-bottom: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) . ";\n";
+		fwrite($handle, $margin_bottom_css);
+		$margin_left_css = "\tmargin-left: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) . ";\n";
 		
+		fwrite($handle, $margin_left_css);
 		fwrite($handle, "}\n");
 		
 		fclose($handle);
@@ -294,6 +302,8 @@ EOD;
 			<option value='px' <?php selected( $height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $height_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $height_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $height_unit, 'rem' ); ?>>rem</option>
+			<option value='auto' <?php selected( $height_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Height of a button</em></p>
 		<?php
@@ -312,6 +322,7 @@ EOD;
 			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $width_unit, 'rem' ); ?>>rem</option>
+			<option value='auto' <?php selected( $width_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Width of a button</em></p>
 		<?php
@@ -496,6 +507,7 @@ EOD;
 			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_top_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $margin_top_unit, 'rem' ); ?>>rem</option>
+			<option value='auto' <?php selected( $margin_top_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Margin top</em></p><br>
 		
@@ -506,6 +518,7 @@ EOD;
 			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_right_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $margin_right_unit, 'rem' ); ?>>rem</option>
+			<option value='auto' <?php selected( $margin_right_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Margin right</em></p><br>
 		
@@ -516,6 +529,7 @@ EOD;
 			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_bottom_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $margin_bottom_unit, 'rem' ); ?>>rem</option>
+			<option value='auto' <?php selected( $margin_bottom_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Margin bottom</em></p><br>
 		
@@ -526,6 +540,7 @@ EOD;
 			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_left_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $margin_left_unit, 'rem' ); ?>>rem</option>
+			<option value='auto' <?php selected( $margin_left_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Margin left</em></p><br>
 		<?php
