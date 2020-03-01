@@ -103,7 +103,8 @@ EOD;
 		delete_option( "kj_simple_button_settings" );
 	}
 
-	public function kj_simple_button_update_stylesheet( $option_name, $old_value, $value ) {
+	public function kj_simple_button_update_stylesheet() {
+		$this->plugin_options = get_option( "kj_simple_button_settings" );
 		$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
 		$creation_date = date('Y-m-d H:i:s', strtotime(current_time('mysql')));
 		$css_header = <<< EOD
@@ -310,6 +311,7 @@ EOD;
 			<option value='px' <?php selected( $width_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $width_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Width of a button</em></p>
 		<?php
@@ -334,6 +336,7 @@ EOD;
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $position_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $position_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Horizontal position of a button</em></p>
 		<?php
@@ -358,6 +361,7 @@ EOD;
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $position_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $position_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Vertical position of a button</em></p>
 		<?php
@@ -392,6 +396,7 @@ EOD;
 			<option value='px' <?php selected( $font_size_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $font_size_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $font_size_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $font_size_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Font size</em></p>
 		<?php
@@ -410,6 +415,7 @@ EOD;
 			<option value='px' <?php selected( $line_height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $line_height_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $line_height_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $line_height_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Line height</em></p>
 		<?php
@@ -434,8 +440,9 @@ EOD;
 			<option value='px' <?php selected( $padding_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_top_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $padding_top_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $padding_top_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Padding top</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo $padding_right;
 ; ?>>
@@ -443,8 +450,9 @@ EOD;
 			<option value='px' <?php selected( $padding_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_right_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $padding_right_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $padding_right_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Padding right</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_bottom_value]' min='0' step='0.1' value=<?php echo $padding_bottom;
 ; ?>>
@@ -452,8 +460,9 @@ EOD;
 			<option value='px' <?php selected( $padding_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_bottom_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $padding_bottom_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $padding_bottom_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Padding botton</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_left_value]' min='0' step='0.1' value=<?php echo $padding_left;
 ; ?>>
@@ -461,8 +470,9 @@ EOD;
 			<option value='px' <?php selected( $padding_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_left_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $padding_left_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $padding_left_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Padding left</em></p><br>
 		<?php
 
 	}
@@ -485,8 +495,9 @@ EOD;
 			<option value='px' <?php selected( $margin_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_top_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $margin_top_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Margin top</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' min='0' step='0.1' value=<?php echo $margin_right;
 ; ?>>
@@ -494,8 +505,9 @@ EOD;
 			<option value='px' <?php selected( $margin_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_right_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $margin_right_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Margin right</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' min='0' step='0.1' value=<?php echo $margin_bottom;
 ; ?>>
@@ -503,8 +515,9 @@ EOD;
 			<option value='px' <?php selected( $margin_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_bottom_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $margin_bottom_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Margin bottom</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' min='0' step='0.1' value=<?php echo $margin_left;
 ; ?>>
@@ -512,8 +525,9 @@ EOD;
 			<option value='px' <?php selected( $margin_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_left_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $margin_left_unit, 'rem' ); ?>>rem</option>
 		</select>
-		<p><em>Line height</em></p>
+		<p><em>Margin left</em></p><br>
 		<?php
 
 	}
