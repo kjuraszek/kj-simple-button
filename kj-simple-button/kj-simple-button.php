@@ -29,6 +29,8 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_text_align_value" => "center", 
 		"kj_simple_button_font_size_value" => 12, 
 		"kj_simple_button_font_size_unit" => "px",
+		"kj_simple_button_font_family_main" => "Arial Black",
+		"kj_simple_button_font_family_fallback" => "sans-serif",
 		"kj_simple_button_line_height_value" => 16, 
 		"kj_simple_button_line_height_unit" => "px",
 		"kj_simple_button_padding_top_value" => 5,
@@ -47,6 +49,18 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_margin_bottom_unit" => "px",
 		"kj_simple_button_margin_left_value" => 5,
 		"kj_simple_button_margin_left_unit" => "px",
+		"kj_simple_button_border_value" => 0,
+		"kj_simple_button_border_unit" => "px",
+		"kj_simple_button_border_style" => "solid",
+		"kj_simple_button_border_color" => "red",
+		"kj_simple_button_border_radius_top_left_value" => 0,
+		"kj_simple_button_border_radius_top_left_unit" => "px",
+		"kj_simple_button_border_radius_top_right_value" => 0,
+		"kj_simple_button_border_radius_top_right_unit" => "px",
+		"kj_simple_button_border_radius_bottom_right_value" => 0,
+		"kj_simple_button_border_radius_bottom_right_unit" => "px",
+		"kj_simple_button_border_radius_bottom_left_value" => 0,
+		"kj_simple_button_border_radius_bottom_left_unit" => "px",
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "", 
@@ -121,9 +135,12 @@ EOD;
 		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false) . ";\n");
 		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false) . ";\n");
 		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false) . ";\n");
-		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
-		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
 		
+		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
+		fwrite($handle, "\tfont-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main', false) . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback', false) . ";\n");
+		
+		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
+
 		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false) . ";\n");
 		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false) . ";\n");
 		fwrite($handle, "\tpadding-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit', false) . ";\n");
@@ -136,8 +153,13 @@ EOD;
 		$margin_bottom_css = "\tmargin-bottom: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) . ";\n";
 		fwrite($handle, $margin_bottom_css);
 		$margin_left_css = "\tmargin-left: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) . ";\n";
-		
 		fwrite($handle, $margin_left_css);
+		$border_css = "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_border_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_style', false). " " . $this->kj_simple_button_get_option('kj_simple_button_border_color', false) . ";\n";
+		fwrite($handle, $border_css);
+		$border_radius_css = "\tborder-radius: " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit', false) . ";\n";
+		fwrite($handle, $border_radius_css);
+		
+		
 		fwrite($handle, "}\n");
 		
 		fclose($handle);
@@ -235,6 +257,13 @@ EOD;
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
 		add_settings_field( 
+			'kj_simple_button_font_family', 
+			__( 'Font family', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_font_family_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
 			'kj_simple_button_line_height', 
 			__( 'Line height', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_line_height_field_render'), 
@@ -252,6 +281,20 @@ EOD;
 			'kj_simple_button_margin', 
 			__( 'Margin', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_margin_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_border', 
+			__( 'Border', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_border_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_border_radius', 
+			__( 'Border radius', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_border_radius_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
@@ -341,8 +384,7 @@ EOD;
 			<option value='left' <?php selected( $position, 'left' ); ?>>left</option>
 			<option value='right' <?php selected( $position, 'right' ); ?>>right</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo $position_value;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo $position_value; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_horizontal_position_unit]'> 
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
@@ -366,8 +408,7 @@ EOD;
 			<option value='top' <?php selected( $position, 'top' ); ?>>top</option>
 			<option value='bottom' <?php selected( $position, 'bottom' ); ?>>bottom</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo $position_value;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo $position_value; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_vertical_position_unit]'> 
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
@@ -401,8 +442,7 @@ EOD;
 		$font_size = $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false);
 		$font_size_unit = $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false);
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_font_size_value]' min='0' step='0.1' value=<?php echo $font_size;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_font_size_value]' min='0' step='0.1' value=<?php echo $font_size; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_font_size_unit]'> 
 			<option value='px' <?php selected( $font_size_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $font_size_unit, '%' ); ?>>%</option>
@@ -414,14 +454,49 @@ EOD;
 
 	}
 	
+	
+	public function kj_simple_button_font_family_field_render(  ) { 
+
+
+		$font_family_main = $this->kj_simple_button_get_option('kj_simple_button_font_family_main', false);
+		$font_family_fallback = $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback', false);
+		?>
+		
+		<select name='kj_simple_button_settings[kj_simple_button_font_family_main]'> 
+			<option value='Arial' <?php selected( $font_family_main, 'Arial' ); ?>>Arial</option>
+			<option value='Arial Black' <?php selected( $font_family_main, 'Arial Black' ); ?>>Arial Black</option>
+			<option value='Roboto' <?php selected( $font_family_main, 'Roboto' ); ?>>Roboto</option>
+			<option value='Times New Roman' <?php selected( $font_family_main, 'Times New Roman' ); ?>>Times New Roman</option>
+			<option value='Times' <?php selected( $font_family_main, 'Times' ); ?>>Times</option>
+			<option value='Courier New' <?php selected( $font_family_main, 'Courier New' ); ?>>Courier New</option>
+			<option value='Courier' <?php selected( $font_family_main, 'Courier' ); ?>>Courier</option>
+			<option value='Verdana' <?php selected( $font_family_main, 'Verdana' ); ?>>Verdana</option>
+			<option value='Georgia' <?php selected( $font_family_main, 'Georgia' ); ?>>Georgia</option>
+			<option value='Palatino' <?php selected( $font_family_main, 'Palatino' ); ?>>Palatino</option>
+			<option value='Garamond' <?php selected( $font_family_main, 'Garamond' ); ?>>Garamond</option>
+			<option value='Impact' <?php selected( $font_family_main, 'Impact' ); ?>>Impact</option>
+			<option value='Comic Sans MS' <?php selected( $font_family_main, 'Comic Sans MS' ); ?>>Comic Sans MS</option>
+		</select>
+		<p><em>Main font</em></p><br>
+		<select name='kj_simple_button_settings[kj_simple_button_font_family_fallback]'> 
+			<option value='cursive' <?php selected( $font_family_fallback, 'cursive' ); ?>>cursive</option>
+			<option value='fantasy' <?php selected( $font_family_fallback, 'fantasy' ); ?>>fantasy</option>
+			<option value='monospace' <?php selected( $font_family_fallback, 'monospace' ); ?>>monospace</option>
+			<option value='serif' <?php selected( $font_family_fallback, 'serif' ); ?>>serif</option>
+			<option value='sans-serif' <?php selected( $font_family_fallback, 'sans-serif' ); ?>>sans-serif</option>
+		</select>
+		<p><em>Fallback font</em></p><br>
+		<?php
+
+	}
+	
 	public function kj_simple_button_line_height_field_render(  ) { 
 
 
 		$line_height = $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false);
 		$line_height_unit = $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false);
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_line_height_value]' min='0' step='0.1' value=<?php echo $line_height;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_line_height_value]' min='0' step='0.1' value=<?php echo $line_height; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_line_height_unit]'> 
 			<option value='px' <?php selected( $line_height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $line_height_unit, '%' ); ?>>%</option>
@@ -445,8 +520,7 @@ EOD;
 		$padding_left = $this->kj_simple_button_get_option('kj_simple_button_padding_left_value', false);
 		$padding_left_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit', false);
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_top_value]' min='0' step='0.1' value=<?php echo $padding_top;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_top_value]' min='0' step='0.1' value=<?php echo $padding_top; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_top_unit]'> 
 			<option value='px' <?php selected( $padding_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_top_unit, '%' ); ?>>%</option>
@@ -455,8 +529,7 @@ EOD;
 		</select>
 		<p><em>Padding top</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo $padding_right;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo $padding_right; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_right_unit]'> 
 			<option value='px' <?php selected( $padding_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_right_unit, '%' ); ?>>%</option>
@@ -465,8 +538,7 @@ EOD;
 		</select>
 		<p><em>Padding right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_bottom_value]' min='0' step='0.1' value=<?php echo $padding_bottom;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_bottom_value]' min='0' step='0.1' value=<?php echo $padding_bottom; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_bottom_unit]'> 
 			<option value='px' <?php selected( $padding_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_bottom_unit, '%' ); ?>>%</option>
@@ -475,8 +547,7 @@ EOD;
 		</select>
 		<p><em>Padding botton</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_left_value]' min='0' step='0.1' value=<?php echo $padding_left;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_left_value]' min='0' step='0.1' value=<?php echo $padding_left; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_left_unit]'> 
 			<option value='px' <?php selected( $padding_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_left_unit, '%' ); ?>>%</option>
@@ -500,8 +571,7 @@ EOD;
 		$margin_left = $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false);
 		$margin_left_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false);
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' min='0' step='0.1' value=<?php echo $margin_top;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' min='0' step='0.1' value=<?php echo $margin_top; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_top_unit]'> 
 			<option value='px' <?php selected( $margin_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
@@ -511,8 +581,7 @@ EOD;
 		</select>
 		<p><em>Margin top</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' min='0' step='0.1' value=<?php echo $margin_right;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' min='0' step='0.1' value=<?php echo $margin_right; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_right_unit]'> 
 			<option value='px' <?php selected( $margin_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
@@ -522,8 +591,7 @@ EOD;
 		</select>
 		<p><em>Margin right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' min='0' step='0.1' value=<?php echo $margin_bottom;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' min='0' step='0.1' value=<?php echo $margin_bottom; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_bottom_unit]'> 
 			<option value='px' <?php selected( $margin_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
@@ -533,8 +601,7 @@ EOD;
 		</select>
 		<p><em>Margin bottom</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' min='0' step='0.1' value=<?php echo $margin_left;
-; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' min='0' step='0.1' value=<?php echo $margin_left; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_left_unit]'> 
 			<option value='px' <?php selected( $margin_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
@@ -543,6 +610,94 @@ EOD;
 			<option value='auto' <?php selected( $margin_left_unit, 'auto' ); ?>>auto</option>
 		</select>
 		<p><em>Margin left</em></p><br>
+		<?php
+
+	}
+	
+	public function kj_simple_button_border_field_render(  ) { 
+
+
+		$border_value = $this->kj_simple_button_get_option('kj_simple_button_border_value', false);
+		$border_unit = $this->kj_simple_button_get_option('kj_simple_button_border_unit', false);
+		$border_style = $this->kj_simple_button_get_option('kj_simple_button_border_style', false);
+		$border_color = $this->kj_simple_button_get_option('kj_simple_button_border_color', false);
+
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_value]' min='0' step='0.1' value=<?php echo $border_value; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_border_unit]'> 
+			<option value='px' <?php selected( $border_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $border_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $border_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $border_unit, 'rem' ); ?>>rem</option>
+		</select>
+		
+		<select name='kj_simple_button_settings[kj_simple_button_border_style]'> 
+			<option value='dotted' <?php selected( $border_style, 'dotted' ); ?>>dotted</option>
+			<option value='dashed' <?php selected( $border_style, 'dashed' ); ?>>dashed</option>
+			<option value='solid' <?php selected( $border_style, 'solid' ); ?>>solid</option>
+			<option value='double' <?php selected( $border_style, 'double' ); ?>>double</option>
+			<option value='groove' <?php selected( $border_style, 'groove' ); ?>>groove</option>
+			<option value='ridge' <?php selected( $border_style, 'ridge' ); ?>>ridge</option>
+			<option value='inset' <?php selected( $border_style, 'inset' ); ?>>inset</option>
+			<option value='outset' <?php selected( $border_style, 'outset' ); ?>>outset</option>
+			<option value='none' <?php selected( $border_style, 'none' ); ?>>none</option>
+			<option value='hidden' <?php selected( $border_style, 'hidden' ); ?>>hidden</option>
+		</select>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_border_color]' value="<?php echo $border_color; ?>">
+		<p><em>Border styling</em></p><br>
+		
+		<?php
+
+	}
+	
+	public function kj_simple_button_border_radius_field_render(  ) { 
+
+
+		$border_radius_top_left = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value', false);
+		$border_radius_top_left_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit', false);
+		$border_radius_top_right = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value', false);
+		$border_radius_top_right_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit', false);
+		$border_radius_bottom_right = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value', false);
+		$border_radius_bottom_right_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit', false);
+		$border_radius_bottom_left = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value', false);
+		$border_radius_bottom_left_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit', false);
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_left_value]' min='0' step='0.1' value=<?php echo $border_radius_top_left; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_border_radius_top_left_unit]'> 
+			<option value='px' <?php selected( $border_radius_top_left_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $border_radius_top_left_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $border_radius_top_left_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $border_radius_top_left_unit, 'rem' ); ?>>rem</option>
+		</select>
+		<p><em>Border radius top left</em></p><br>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_right_value]' min='0' step='0.1' value=<?php echo $border_radius_top_right; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_border_radius_top_right_unit]'> 
+			<option value='px' <?php selected( $border_radius_top_right_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $border_radius_top_right_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $border_radius_top_right_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $border_radius_top_right_unit, 'rem' ); ?>>rem</option>
+		</select>
+		<p><em>Border radius top right</em></p><br>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_right_value]' min='0' step='0.1' value=<?php echo $border_radius_bottom_right; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_right_unit]'> 
+			<option value='px' <?php selected( $border_radius_bottom_right_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $border_radius_bottom_right_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $border_radius_bottom_right_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $border_radius_bottom_right_unit, 'rem' ); ?>>rem</option>
+		</select>
+		<p><em>Border radius bottom right</em></p><br>
+		
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_left_value]' min='0' step='0.1' value=<?php echo $border_radius_bottom_left; ?>>
+		<select name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_left_unit]'> 
+			<option value='px' <?php selected( $border_radius_bottom_left_unit, 'px' ); ?>>px</option>
+			<option value='%' <?php selected( $border_radius_bottom_left_unit, '%' ); ?>>%</option>
+			<option value='em' <?php selected( $border_radius_bottom_left_unit, 'em' ); ?>>em</option>
+			<option value='rem' <?php selected( $border_radius_bottom_left_unit, 'rem' ); ?>>rem</option>
+		</select>
+		<p><em>Border radius bottom left</em></p><br>
+		
 		<?php
 
 	}
