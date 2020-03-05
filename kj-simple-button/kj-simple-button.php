@@ -31,8 +31,11 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_font_size_unit" => "px",
 		"kj_simple_button_font_family_main" => "Arial Black",
 		"kj_simple_button_font_family_fallback" => "sans-serif",
+		"kj_simple_button_font_color" => "#ffffff",
+		"kj_simple_button_background_color" => "#2d2d2d",
 		"kj_simple_button_line_height_value" => 16, 
 		"kj_simple_button_line_height_unit" => "px",
+		"kj_simple_button_opacity_value" => 1,
 		"kj_simple_button_padding_top_value" => 5,
 		"kj_simple_button_padding_top_unit" => "px",
 		"kj_simple_button_padding_right_value" => 5,
@@ -139,7 +142,12 @@ EOD;
 		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
 		fwrite($handle, "\tfont-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main', false) . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback', false) . ";\n");
 		
+		fwrite($handle, "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_font_color', false) . ";\n");
+		fwrite($handle, "\tbackground: " . $this->kj_simple_button_get_option('kj_simple_button_background_color', false) . ";\n");
+		
 		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
+		
+		fwrite($handle, "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_opacity_value', false) . ";\n");
 
 		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false) . ";\n");
 		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false) . ";\n");
@@ -264,9 +272,30 @@ EOD;
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
 		add_settings_field( 
+			'kj_simple_button_font_color', 
+			__( 'Font color', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_font_color_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_background_color', 
+			__( 'Background color', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_background_color_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
 			'kj_simple_button_line_height', 
 			__( 'Line height', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_line_height_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_opacity', 
+			__( 'Opacity', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_opacity_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
@@ -490,6 +519,32 @@ EOD;
 
 	}
 	
+	public function kj_simple_button_font_color_field_render(  ) { 
+
+
+		$font_color = $this->kj_simple_button_get_option('kj_simple_button_font_color', false);
+
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_font_color]' value="<?php echo $font_color; ?>">
+		<p><em>Font color</em></p><br>
+		
+		<?php
+
+	}
+	
+	public function kj_simple_button_background_color_field_render(  ) { 
+
+
+		$background_color = $this->kj_simple_button_get_option('kj_simple_button_background_color', false);
+
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_background_color]' value="<?php echo $background_color; ?>">
+		<p><em>Background color</em></p><br>
+		
+		<?php
+
+	}
+	
 	public function kj_simple_button_line_height_field_render(  ) { 
 
 
@@ -504,6 +559,17 @@ EOD;
 			<option value='rem' <?php selected( $line_height_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Line height</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_opacity_field_render(  ) { 
+
+
+		$opacity = $this->kj_simple_button_get_option('kj_simple_button_opacity_value', false);
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_opacity_value]' min='0' step='0.1' max='1.0' value=<?php echo $opacity; ?>>
+		<p><em>Opacity</em></p>
 		<?php
 
 	}
