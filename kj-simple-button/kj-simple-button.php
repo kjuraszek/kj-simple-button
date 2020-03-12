@@ -67,7 +67,8 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "", 
-		"kj_simple_button_content_value" => "");
+		"kj_simple_button_content_value" => "",
+		"kj_simple_button_disabled_posts" => "");
 		
 		
     public function __construct() {
@@ -190,6 +191,12 @@ EOD;
 	}
 
 	public function kj_simple_button_append_button(){
+		global $post;
+		$current_options = $this->plugin_options;
+		$disabled_ids = explode(",", $current_options['kj_simple_button_disabled_posts']);
+		if(isset($post) && in_array($post->ID, $disabled_ids)){
+			return false;
+		}
 		echo '<!-- #kj-simple-button -->';
 		echo '<a ';
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_href_value', true)) ? 'href="' . $this->kj_simple_button_get_option('kj_simple_button_href_value', true) . '" ' : '' ;
@@ -358,6 +365,13 @@ EOD;
 			'kj_simple_button_content_field', 
 			__( 'Content', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_content_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
+		);
+		add_settings_field( 
+			'kj_simple_button_disabled_posts_field', 
+			__( 'Disabled posts', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_disabled_posts_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_misc' 
 		);
@@ -810,6 +824,17 @@ EOD;
 		?>
 		<input type='text' name='kj_simple_button_settings[kj_simple_button_content_value]' value="<?php echo $content; ?>"> (leave empty if don't need this)
 		<p><em>Text inside button, eg. <strong>Check this out!</strong></em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_disabled_posts_field_render(  ) { 
+
+		$disabled_posts = $this->kj_simple_button_get_option('kj_simple_button_disabled_posts', true);
+		
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_disabled_posts]' value="<?php echo $disabled_posts; ?>"> (leave empty if don't need this)
+		<p><em>Don't show button on posts with these IDs (separated with commas), eg. <strong>10,16,103</strong></em></p>
 		<?php
 
 	}
