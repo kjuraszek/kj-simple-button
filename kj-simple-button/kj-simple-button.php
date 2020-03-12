@@ -64,6 +64,11 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_border_radius_bottom_right_unit" => "px",
 		"kj_simple_button_border_radius_bottom_left_value" => 0,
 		"kj_simple_button_border_radius_bottom_left_unit" => "px",
+		"kj_simple_button_resolution_max_575" => 1,
+		"kj_simple_button_resolution_min_576" => 1,
+		"kj_simple_button_resolution_min_768" => 1,
+		"kj_simple_button_resolution_min_992" => 1,
+		"kj_simple_button_resolution_min_1200" => 1,
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "", 
@@ -167,9 +172,16 @@ EOD;
 		fwrite($handle, $border_css);
 		$border_radius_css = "\tborder-radius: " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit', false) . ";\n";
 		fwrite($handle, $border_radius_css);
-		
-		
+
 		fwrite($handle, "}\n");
+		
+		$resolutions_css = 
+'@media (max-width:575px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_max_575', true) === '1')?"block":"none").";}}\n".
+'@media (min-width:576px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_576', true) === '1')?"block":"none").";}}\n".
+'@media (min-width:768px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_768', true) === '1')?"block":"none").";}}\n".
+'@media (min-width:992px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_992', true) === '1')?"block":"none").";}}\n".
+'@media (min-width:1200px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200', true) === '1')?"block":"none").";}}\n";
+		fwrite($handle, $resolutions_css);
 		
 		fclose($handle);
 	}
@@ -331,6 +343,13 @@ EOD;
 			'kj_simple_button_border_radius', 
 			__( 'Border radius', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_border_radius_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_resolutions', 
+			__( 'Resolutions', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_resolutions_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
@@ -778,6 +797,29 @@ EOD;
 		</select>
 		<p><em>Border radius bottom left</em></p><br>
 		
+		<?php
+
+	}
+	
+	function kj_simple_button_resolutions_field_render(  ) { 
+	
+		$resolution_max_575 = $this->kj_simple_button_get_option('kj_simple_button_resolution_max_575', true);
+		$resolution_min_576 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_576', true);
+		$resolution_min_768 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_768', true);
+		$resolution_min_992 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_992', true);
+		$resolution_min_1200 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200', true);
+
+		?>
+		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_max_575]' <?php checked( $resolution_max_575, 1 ); ?> value='1'>
+		<p>Button visible on screen width less than 576px.</p><br>
+		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_576]' <?php checked( $resolution_min_576, 1 ); ?> value='1'>
+		<p>Button visible on screen width greater or equal than 576px and less than 768px.</p><br>
+		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_768]' <?php checked( $resolution_min_768, 1 ); ?> value='1'>
+		<p>Button visible on screen width greater or equal than 768px and less than 992px.</p><br>
+		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_992]' <?php checked( $resolution_min_992, 1 ); ?> value='1'>
+		<p>Button visible on screen width greater or equal than 992px and less than 1200px.</p><br>
+		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_1200]' <?php checked( $resolution_min_1200, 1 ); ?> value='1'>
+		<p>Button visible on screen width gretaer or equal than 1200px.</p><br>
 		<?php
 
 	}
