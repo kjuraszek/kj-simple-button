@@ -369,7 +369,7 @@ EOD;
 		$height_unit = $this->kj_simple_button_get_option('kj_simple_button_height_unit', false);
 		
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_height_value]'  min='0' step='0.1'value=<?php echo $height; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_height_value]'  min='0' step='0.1' value=<?php echo $height; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_height_unit]'> 
 			<option value='px' <?php selected( $height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $height_unit, '%' ); ?>>%</option>
@@ -637,7 +637,7 @@ EOD;
 		$margin_left = $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false);
 		$margin_left_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false);
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' min='0' step='0.1' value=<?php echo $margin_top; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' step='0.1' value=<?php echo $margin_top; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_top_unit]'> 
 			<option value='px' <?php selected( $margin_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
@@ -647,7 +647,7 @@ EOD;
 		</select>
 		<p><em>Margin top</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' min='0' step='0.1' value=<?php echo $margin_right; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' step='0.1' value=<?php echo $margin_right; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_right_unit]'> 
 			<option value='px' <?php selected( $margin_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
@@ -657,7 +657,7 @@ EOD;
 		</select>
 		<p><em>Margin right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' min='0' step='0.1' value=<?php echo $margin_bottom; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' step='0.1' value=<?php echo $margin_bottom; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_bottom_unit]'> 
 			<option value='px' <?php selected( $margin_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
@@ -667,7 +667,7 @@ EOD;
 		</select>
 		<p><em>Margin bottom</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' min='0' step='0.1' value=<?php echo $margin_left; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' step='0.1' value=<?php echo $margin_left; ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_left_unit]'> 
 			<option value='px' <?php selected( $margin_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
