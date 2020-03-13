@@ -16,6 +16,8 @@ class KJ_Simple_Floating_Button {
 	
 	static $instance = false;
 	static $default_options = array(
+		"kj_simple_button_btn_active" => 1, 
+		"kj_simple_button_advanced_mode" => 0, 
 		"kj_simple_button_height_value" => 90, 
 		"kj_simple_button_height_unit" => "px", 
 		"kj_simple_button_width_value" => 90, 
@@ -205,8 +207,9 @@ EOD;
 	public function kj_simple_button_append_button(){
 		global $post;
 		$current_options = $this->plugin_options;
+		
 		$disabled_ids = explode(",", $current_options['kj_simple_button_disabled_posts']);
-		if(isset($post) && in_array($post->ID, $disabled_ids)){
+		if(!isset($current_options['kj_simple_button_btn_active']) || $current_options['kj_simple_button_btn_active'] !== '1' || (isset($post) && in_array($post->ID, $disabled_ids))){
 			return false;
 		}
 		echo '<!-- #kj-simple-button -->';
@@ -231,9 +234,33 @@ EOD;
 		}
 	}
 
-	public function kj_simple_button_settings_init(  ) { 
+	public function kj_simple_button_settings_init(  ) {
+			
+		$current_options = $this->plugin_options;
+		$advanced_mode_class = (!isset($current_options['kj_simple_button_advanced_mode']) || $current_options['kj_simple_button_advanced_mode'] !== '1') ? 'hidden' : '';
 		
 		register_setting( 'kjSettingsPage', 'kj_simple_button_settings' );
+		add_settings_section(
+			'kj_simple_button_kjSettingsPage_section_main', 
+			__( 'Main settings', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_settings_section_callback'), 
+			'kjSettingsPage'
+		);
+		
+		add_settings_field( 
+			'kj_simple_button_btn_active_field', 
+			__( 'Button activated', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_btn_active_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_main' 
+		);
+		add_settings_field( 
+			'kj_simple_button_advanced_mode_field', 
+			__( 'Advanced mode', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_advanced_mode_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_main'
+		);
 		add_settings_section(
 			'kj_simple_button_kjSettingsPage_section_style', 
 			__( 'Style settings', 'kj-simple-button' ), 
@@ -309,49 +336,56 @@ EOD;
 			__( 'Line height', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_line_height_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_opacity', 
 			__( 'Opacity', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_opacity_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_padding', 
 			__( 'Padding', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_padding_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_margin', 
 			__( 'Margin', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_margin_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_border', 
 			__( 'Border', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_border_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_border_radius', 
 			__( 'Border radius', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_border_radius_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_resolutions', 
 			__( 'Resolutions', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_resolutions_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_style' 
+			'kj_simple_button_kjSettingsPage_section_style',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_section(
 			'kj_simple_button_kjSettingsPage_section_misc', 
@@ -371,14 +405,16 @@ EOD;
 			__( 'Rel', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_rel_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_misc' 
+			'kj_simple_button_kjSettingsPage_section_misc',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_target_field', 
 			__( 'Target', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_target_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_misc' 
+			'kj_simple_button_kjSettingsPage_section_misc',
+			array('class' => $advanced_mode_class) 
 		);
 		add_settings_field( 
 			'kj_simple_button_content_field', 
@@ -392,9 +428,35 @@ EOD;
 			__( 'Disabled posts', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_disabled_posts_field_render'), 
 			'kjSettingsPage', 
-			'kj_simple_button_kjSettingsPage_section_misc' 
+			'kj_simple_button_kjSettingsPage_section_misc',
+			array('class' => $advanced_mode_class) 
 		);
 	}
+	
+	function kj_simple_button_btn_active_field_render(  ) { 
+	
+		$btn_active = $this->kj_simple_button_get_option('kj_simple_button_btn_active', true);
+
+		?>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_btn_active]' <?php checked( $btn_active, 1 ); ?> value='1'>
+		Enable or disable button.</p><br>
+		
+		<?php
+
+	}
+	
+	function kj_simple_button_advanced_mode_field_render(  ) { 
+	
+		$advanced_mode = $this->kj_simple_button_get_option('kj_simple_button_advanced_mode', true);
+
+		?>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_advanced_mode]' <?php checked( $advanced_mode, 1 ); ?> value='1'>
+		Advanced mode (show/hide some settings).</p><br>
+		
+		<?php
+
+	}
+
 
 	public function kj_simple_button_height_field_render(  ) { 
 
@@ -810,16 +872,16 @@ EOD;
 		$resolution_min_1200 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200', true);
 
 		?>
-		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_max_575]' <?php checked( $resolution_max_575, 1 ); ?> value='1'>
-		<p>Button visible on screen width less than 576px.</p><br>
-		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_576]' <?php checked( $resolution_min_576, 1 ); ?> value='1'>
-		<p>Button visible on screen width greater or equal than 576px and less than 768px.</p><br>
-		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_768]' <?php checked( $resolution_min_768, 1 ); ?> value='1'>
-		<p>Button visible on screen width greater or equal than 768px and less than 992px.</p><br>
-		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_992]' <?php checked( $resolution_min_992, 1 ); ?> value='1'>
-		<p>Button visible on screen width greater or equal than 992px and less than 1200px.</p><br>
-		<input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_1200]' <?php checked( $resolution_min_1200, 1 ); ?> value='1'>
-		<p>Button visible on screen width gretaer or equal than 1200px.</p><br>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_max_575]' <?php checked( $resolution_max_575, 1 ); ?> value='1'>
+		Button visible on screen width less than 576px.</p><br>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_576]' <?php checked( $resolution_min_576, 1 ); ?> value='1'>
+		Button visible on screen width greater or equal than 576px and less than 768px.</p><br>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_768]' <?php checked( $resolution_min_768, 1 ); ?> value='1'>
+		Button visible on screen width greater or equal than 768px and less than 992px.</p><br>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_992]' <?php checked( $resolution_min_992, 1 ); ?> value='1'>
+		Button visible on screen width greater or equal than 992px and less than 1200px.</p><br>
+		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_1200]' <?php checked( $resolution_min_1200, 1 ); ?> value='1'>
+		Button visible on screen width greater or equal than 1200px.</p><br>
 		<?php
 
 	}
@@ -893,7 +955,6 @@ EOD;
 		<form action='options.php' method='post'>
 
 			<h2>KJ Simple Button</h2>
-
 			<?php
 			settings_fields( 'kjSettingsPage' );
 			do_settings_sections( 'kjSettingsPage' );
