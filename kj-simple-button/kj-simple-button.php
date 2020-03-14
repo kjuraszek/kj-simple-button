@@ -79,7 +79,8 @@ class KJ_Simple_Floating_Button {
 		
 		
     public function __construct() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts') );
+		add_action( 'wp_enqueue_scripts', array( $this, 'kj_simple_button_enqueue_scripts') );
+		add_action( 'admin_enqueue_scripts', array( $this, 'kj_simple_button_admin_enqueue_scripts') );
 		add_action( 'admin_menu', array($this, 'kj_simple_button_add_admin_menu') );
 		add_action( 'admin_init', array($this, 'kj_simple_button_settings_init') );
 		add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), array($this, 'kj_simple_button_add_plugin_page_settings_link') );
@@ -188,9 +189,15 @@ EOD;
 		fclose($handle);
 	}
 
-    public function enqueue_scripts() {
+    public function kj_simple_button_enqueue_scripts() {
 		wp_enqueue_style('KJ_Simple_Floating_Button', plugins_url('assets/css/style.css', __FILE__), null, '');
 		wp_enqueue_style('KJ_Simple_Floating_Button_custom', plugins_url('assets/css/custom-style.css', __FILE__), null, '');
+
+	}
+	
+	public function kj_simple_button_admin_enqueue_scripts() {
+		
+		wp_enqueue_script('KJ_Simple_Floating_Button_admin_js', plugins_url('admin/js/admin.js', __FILE__), array('jquery'));
 	}
 	
 	public function kj_simple_button_add_admin_menu(  ) { 
@@ -237,7 +244,7 @@ EOD;
 	public function kj_simple_button_settings_init(  ) {
 			
 		$current_options = $this->plugin_options;
-		$advanced_mode_class = (!isset($current_options['kj_simple_button_advanced_mode']) || $current_options['kj_simple_button_advanced_mode'] !== '1') ? 'hidden' : '';
+		$advanced_mode_class = (!isset($current_options['kj_simple_button_advanced_mode']) || $current_options['kj_simple_button_advanced_mode'] !== '1') ? 'hidden advanced-option' : 'advanced-option';
 		
 		register_setting( 'kjSettingsPage', 'kj_simple_button_settings' );
 		add_settings_section(
@@ -438,8 +445,8 @@ EOD;
 		$btn_active = $this->kj_simple_button_get_option('kj_simple_button_btn_active', true);
 
 		?>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_btn_active]' <?php checked( $btn_active, 1 ); ?> value='1'>
-		Enable or disable button.</p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_btn_active]' <?php checked( $btn_active, 1 ); ?> value='1'>
+		Enable or disable button.</label></p>
 		
 		<?php
 
@@ -450,8 +457,8 @@ EOD;
 		$advanced_mode = $this->kj_simple_button_get_option('kj_simple_button_advanced_mode', true);
 
 		?>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_advanced_mode]' <?php checked( $advanced_mode, 1 ); ?> value='1'>
-		Advanced mode (show/hide some settings).</p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_advanced_mode]' <?php checked( $advanced_mode, 1 ); ?> value='1'>
+		Advanced mode (show/hide some settings).</label></p>
 		
 		<?php
 
@@ -687,7 +694,7 @@ EOD;
 			<option value='%' <?php selected( $padding_top_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $padding_top_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $padding_top_unit, 'rem' ); ?>>rem</option>
-		</select>
+		</select> <a class="button-secondary button-set-for-all" button-for="padding" >Set this value for all</a>
 		<p><em>Padding top</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo $padding_right; ?>>
@@ -739,7 +746,7 @@ EOD;
 			<option value='em' <?php selected( $margin_top_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $margin_top_unit, 'rem' ); ?>>rem</option>
 			<option value='auto' <?php selected( $margin_top_unit, 'auto' ); ?>>auto</option>
-		</select>
+		</select> <a class="button-secondary button-set-for-all" button-for="margin" >Set this value for all</a>
 		<p><em>Margin top</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' step='0.1' value=<?php echo $margin_right; ?>>
@@ -829,7 +836,7 @@ EOD;
 			<option value='%' <?php selected( $border_radius_top_left_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $border_radius_top_left_unit, 'em' ); ?>>em</option>
 			<option value='rem' <?php selected( $border_radius_top_left_unit, 'rem' ); ?>>rem</option>
-		</select>
+		</select> <a class="button-secondary button-set-for-all" button-for="border-radius" >Set this value for all</a>
 		<p><em>Border radius top left</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_right_value]' min='0' step='0.1' value=<?php echo $border_radius_top_right; ?>>
@@ -872,16 +879,16 @@ EOD;
 		$resolution_min_1200 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200', true);
 
 		?>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_max_575]' <?php checked( $resolution_max_575, 1 ); ?> value='1'>
-		Button visible on screen width less than 576px.</p><br>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_576]' <?php checked( $resolution_min_576, 1 ); ?> value='1'>
-		Button visible on screen width greater or equal than 576px and less than 768px.</p><br>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_768]' <?php checked( $resolution_min_768, 1 ); ?> value='1'>
-		Button visible on screen width greater or equal than 768px and less than 992px.</p><br>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_992]' <?php checked( $resolution_min_992, 1 ); ?> value='1'>
-		Button visible on screen width greater or equal than 992px and less than 1200px.</p><br>
-		<p><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_1200]' <?php checked( $resolution_min_1200, 1 ); ?> value='1'>
-		Button visible on screen width greater or equal than 1200px.</p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_max_575]' <?php checked( $resolution_max_575, 1 ); ?> value='1'>
+		Button visible on screen width <strong>less than 576px.</strong></label></p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_576]' <?php checked( $resolution_min_576, 1 ); ?> value='1'>
+		Button visible on screen width <strong>greater or equal than 576px and less than 768px.</strong></label></p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_768]' <?php checked( $resolution_min_768, 1 ); ?> value='1'>
+		Button visible on screen width <strong>greater or equal than 768px and less than 992px.</strong></label></p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_992]' <?php checked( $resolution_min_992, 1 ); ?> value='1'>
+		Button visible on screen width <strong>greater or equal than 992px and less than 1200px.</strong></label></p><br>
+		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_min_1200]' <?php checked( $resolution_min_1200, 1 ); ?> value='1'>
+		Button visible on screen width <strong>greater or equal than 1200px.</strong></label></p><br>
 		<?php
 
 	}
