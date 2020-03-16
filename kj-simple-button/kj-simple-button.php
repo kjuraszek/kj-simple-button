@@ -18,10 +18,10 @@ class KJ_Simple_Floating_Button {
 	static $default_options = array(
 		"kj_simple_button_btn_active" => 1, 
 		"kj_simple_button_advanced_mode" => 0, 
-		"kj_simple_button_height_value" => 90, 
-		"kj_simple_button_height_unit" => "px", 
-		"kj_simple_button_width_value" => 90, 
-		"kj_simple_button_width_unit" => "px",
+		"kj_simple_button_height_value" => 0, 
+		"kj_simple_button_height_unit" => "auto", 
+		"kj_simple_button_width_value" => 0, 
+		"kj_simple_button_width_unit" => "auto",
 		"kj_simple_button_horizontal_position" => "left", 
 		"kj_simple_button_horizontal_position_value" => 0,  
 		"kj_simple_button_horizontal_position_unit" => "px",
@@ -472,7 +472,7 @@ EOD;
 		
 		?>
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_height_value]'  min='0' step='0.1' value=<?php echo $height; ?>>
-		<select name='kj_simple_button_settings[kj_simple_button_height_unit]'> 
+		<select name='kj_simple_button_settings[kj_simple_button_height_unit]' class='select_with_auto_option' select-for='height'> 
 			<option value='px' <?php selected( $height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $height_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $height_unit, 'em' ); ?>>em</option>
@@ -491,7 +491,7 @@ EOD;
 		
 		?>
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_width_value]' min='0' step='0.1' value=<?php echo $width; ?>>
-		<select name='kj_simple_button_settings[kj_simple_button_width_unit]'> 
+		<select name='kj_simple_button_settings[kj_simple_button_width_unit]' class='select_with_auto_option' select-for='width'> 
 			<option value='px' <?php selected( $width_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $width_unit, 'em' ); ?>>em</option>
@@ -740,7 +740,7 @@ EOD;
 		$margin_left_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false);
 		?>
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' step='0.1' value=<?php echo $margin_top; ?>>
-		<select name='kj_simple_button_settings[kj_simple_button_margin_top_unit]'> 
+		<select name='kj_simple_button_settings[kj_simple_button_margin_top_unit]' class='select_with_auto_option' select-for='margin_top'> 
 			<option value='px' <?php selected( $margin_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_top_unit, 'em' ); ?>>em</option>
@@ -750,7 +750,7 @@ EOD;
 		<p><em>Margin top</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' step='0.1' value=<?php echo $margin_right; ?>>
-		<select name='kj_simple_button_settings[kj_simple_button_margin_right_unit]'> 
+		<select name='kj_simple_button_settings[kj_simple_button_margin_right_unit]' class='select_with_auto_option' select-for='margin_right'> 
 			<option value='px' <?php selected( $margin_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_right_unit, 'em' ); ?>>em</option>
@@ -760,7 +760,7 @@ EOD;
 		<p><em>Margin right</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' step='0.1' value=<?php echo $margin_bottom; ?>>
-		<select name='kj_simple_button_settings[kj_simple_button_margin_bottom_unit]'> 
+		<select name='kj_simple_button_settings[kj_simple_button_margin_bottom_unit]' class='select_with_auto_option' select-for='margin_bottom'> 
 			<option value='px' <?php selected( $margin_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_bottom_unit, 'em' ); ?>>em</option>
@@ -770,7 +770,7 @@ EOD;
 		<p><em>Margin bottom</em></p><br>
 		
 		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' step='0.1' value=<?php echo $margin_left; ?>>
-		<select name='kj_simple_button_settings[kj_simple_button_margin_left_unit]'> 
+		<select name='kj_simple_button_settings[kj_simple_button_margin_left_unit]' class='select_with_auto_option' select-for='margin_left'> 
 			<option value='px' <?php selected( $margin_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
 			<option value='em' <?php selected( $margin_left_unit, 'em' ); ?>>em</option>

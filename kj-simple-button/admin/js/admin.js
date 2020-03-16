@@ -1,6 +1,19 @@
 jQuery(document).ready(function($){
 	
-	jQuery('.kj_simple_button_color_field').wpColorPicker();
+	jQuery('.kj_simple_button_color_picker').wpColorPicker();
+	jQuery('.select_with_auto_option').each(function(index, el){
+
+		if(el.attributes["select-for"].value){
+			const t = el.attributes["select-for"].value;
+			const v = el.options[el.selectedIndex].value;
+			if(v === "auto"){
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').prop( "disabled", true );
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').val( 0 );
+			} else {
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').prop( "disabled", false );
+			}
+		}
+	});
 	
 	jQuery('.button-set-for-all').click(function(e){
 		if(e.target.attributes["button-for"].value){
@@ -33,4 +46,16 @@ jQuery(document).ready(function($){
 		}
 	});
 	
+	jQuery('.select_with_auto_option').change(function(e){
+		if(e.target.attributes["select-for"].value){
+			const t = e.target.attributes["select-for"].value;
+			const v = e.target.options[e.target.selectedIndex].value;
+			if(v === "auto"){
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').prop( "disabled", true );
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').val( 0 );
+			} else {
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').prop( "disabled", false );
+			}
+		}
+	});
 });
