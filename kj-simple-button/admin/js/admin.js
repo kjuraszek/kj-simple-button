@@ -1,5 +1,7 @@
 jQuery(document).ready(function($){
 	
+	jQuery('.kj_simple_button_color_field').wpColorPicker();
+	
 	jQuery('.button-set-for-all').click(function(e){
 		if(e.target.attributes["button-for"].value){
 			const t = e.target.attributes["button-for"].value;

@@ -57,7 +57,7 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_border_value" => 0,
 		"kj_simple_button_border_unit" => "px",
 		"kj_simple_button_border_style" => "solid",
-		"kj_simple_button_border_color" => "red",
+		"kj_simple_button_border_color" => "#d8e2ff",
 		"kj_simple_button_border_radius_top_left_value" => 0,
 		"kj_simple_button_border_radius_top_left_unit" => "px",
 		"kj_simple_button_border_radius_top_right_value" => 0,
@@ -196,8 +196,8 @@ EOD;
 	}
 	
 	public function kj_simple_button_admin_enqueue_scripts() {
-		
-		wp_enqueue_script('KJ_Simple_Floating_Button_admin_js', plugins_url('admin/js/admin.js', __FILE__), array('jquery'));
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script('KJ_Simple_Floating_Button_admin_js', plugins_url('admin/js/admin.js', __FILE__), array('jquery', 'wp-color-picker' ));
 	}
 	
 	public function kj_simple_button_add_admin_menu(  ) { 
@@ -627,7 +627,7 @@ EOD;
 		$font_color = $this->kj_simple_button_get_option('kj_simple_button_font_color', false);
 
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_font_color]' value="<?php echo $font_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_font_color]' class="kj_simple_button_color_picker" data-default-color="#ffffff" value="<?php echo $font_color; ?>">
 		<p><em>Font color</em></p><br>
 		
 		<?php
@@ -640,7 +640,7 @@ EOD;
 		$background_color = $this->kj_simple_button_get_option('kj_simple_button_background_color', false);
 
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_background_color]' value="<?php echo $background_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_background_color]' class="kj_simple_button_color_picker" data-default-color="#2d2d2d"  value="<?php echo $background_color; ?>">
 		<p><em>Background color</em></p><br>
 		
 		<?php
@@ -811,7 +811,7 @@ EOD;
 			<option value='none' <?php selected( $border_style, 'none' ); ?>>none</option>
 			<option value='hidden' <?php selected( $border_style, 'hidden' ); ?>>hidden</option>
 		</select>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_border_color]' value="<?php echo $border_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_border_color]' class="kj_simple_button_color_picker" data-default-color="#d8e2ff"  value="<?php echo $border_color; ?>">
 		<p><em>Border styling</em></p><br>
 		
 		<?php
