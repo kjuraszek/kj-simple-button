@@ -14,6 +14,18 @@ jQuery(document).ready(function($){
 			}
 		}
 	});
+	jQuery('.checkbox-change-hover').each(function(index, el){
+		if(el.checked){
+			jQuery(this).closest(".hover_group_parent").find("input[type='number']").prop("disabled", false);
+			jQuery(this).closest(".hover_group_parent").find("button").prop("disabled", false);
+			jQuery(this).closest(".hover_group_parent").find("select").prop("disabled", false);
+			
+		} else{
+			jQuery(this).closest(".hover_group_parent").find("input[type='number']").prop("disabled", true);
+			jQuery(this).closest(".hover_group_parent").find("button").prop("disabled", true);
+			jQuery(this).closest(".hover_group_parent").find("select").prop("disabled", true);
+		}		
+	});
 	
 	jQuery('.button-set-for-all').click(function(e){
 		if(e.target.attributes["button-for"].value){
@@ -30,10 +42,9 @@ jQuery(document).ready(function($){
 			mainUnit = jQuery('select[name="kj_simple_button_settings[kj_simple_button_' + mainElement + '_unit]"] option:selected').val();
 			
 			otherElements.forEach(function(item){
-				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + item + '_value]"]').val(mainValue);
-				jQuery('select[name="kj_simple_button_settings[kj_simple_button_' + item + '_unit]"]').val(mainUnit);
+				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + item + '_value]"]').val(mainValue).trigger('change');
+				jQuery('select[name="kj_simple_button_settings[kj_simple_button_' + item + '_unit]"]').val(mainUnit).trigger('change');
 			});
-			console.log(mainUnit);
 			
 		};
 	});
@@ -57,5 +68,17 @@ jQuery(document).ready(function($){
 				jQuery('input[name="kj_simple_button_settings[kj_simple_button_' + t + '_value]"]').prop( "disabled", false );
 			}
 		}
+	});
+	jQuery(".checkbox-change-hover").change(function(e){
+		if(jQuery(this).prop("checked")){
+			jQuery(this).closest(".hover_group_parent").find("input[type='number']").prop("disabled", false);
+			jQuery(this).closest(".hover_group_parent").find("button").prop("disabled", false);
+			jQuery(this).closest(".hover_group_parent").find("select").prop("disabled", false);
+			
+		} else{
+			jQuery(this).closest(".hover_group_parent").find("input[type='number']").prop("disabled", true);
+			jQuery(this).closest(".hover_group_parent").find("button").prop("disabled", true);
+			jQuery(this).closest(".hover_group_parent").find("select").prop("disabled", true);
+		}		
 	});
 });
