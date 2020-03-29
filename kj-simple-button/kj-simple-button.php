@@ -18,10 +18,10 @@ class KJ_Simple_Floating_Button {
 	static $default_options = array(
 		"kj_simple_button_btn_active" => 1, 
 		"kj_simple_button_advanced_mode" => 0, 
-		"kj_simple_button_height_value" => 0, 
-		"kj_simple_button_height_unit" => "auto", 
-		"kj_simple_button_width_value" => 0, 
-		"kj_simple_button_width_unit" => "auto",
+		"kj_simple_button_height_value" => 100, 
+		"kj_simple_button_height_unit" => "px", 
+		"kj_simple_button_width_value" => 100, 
+		"kj_simple_button_width_unit" => "px",
 		"kj_simple_button_horizontal_position" => "left", 
 		"kj_simple_button_horizontal_position_value" => 0,  
 		"kj_simple_button_horizontal_position_unit" => "px",
@@ -299,7 +299,11 @@ EOD;
 		$current_options = $this->plugin_options;
 		$advanced_mode_class = (!isset($current_options['kj_simple_button_advanced_mode']) || $current_options['kj_simple_button_advanced_mode'] !== '1') ? 'hidden advanced-option' : 'advanced-option';
 		
-		register_setting( 'kjSettingsPage', 'kj_simple_button_settings' );
+		register_setting( 
+		'kjSettingsPage', 
+		'kj_simple_button_settings',
+		array($this, 'kj_simple_button_settings_validation')
+		);
 		add_settings_section(
 			'kj_simple_button_kjSettingsPage_section_main', 
 			__( 'Main settings', 'kj-simple-button' ), 
@@ -1103,6 +1107,52 @@ EOD;
 
 	}
 
+	public function kj_simple_button_settings_validation($input) {
+		$default_options  = self::$default_options;
+		$can_be_empty = array(
+			"kj_simple_button_background_color",
+			"kj_simple_button_border_color",
+			"kj_simple_button_hover_background_color",
+			"kj_simple_button_hover_border_color",
+			"kj_simple_button_href_value", 
+			"kj_simple_button_rel_value", 
+			"kj_simple_button_target_value", 
+			"kj_simple_button_content_value",
+			"kj_simple_button_disabled_posts"
+		);
+		$empty_values = array();
+		$validated_input = array();
+		foreach($input as $option=>$value){
+			if(array_key_exists($option, $default_options )){
+				if(empty($value) && (string)$value !==  "0" && !in_array($option, $can_be_empty)){
+					array_push($empty_values, "<li>" . str_replace("kj_simple_button_", "", $option) . "</li>");
+					$validated_input[$option] = $default_options[$option];
+				} else {
+					$validated_input[$option] = $value;
+				}
+			}
+		}
+		
+		add_settings_error(
+				'kj_simple_button_errors',
+				esc_attr( 'settings_updated_success' ),
+				"Settings saved!",
+				"success"
+			);
+		
+		if(count($empty_values) > 0){
+			$message = "These options were empty, default values have been set:";
+			add_settings_error(
+				'kj_simple_button_errors',
+				esc_attr( 'settings_updated_error' ),
+				"<p>". $message . "</p><ul>" . implode("", $empty_values) . "</ul>",
+				"error"
+			);
+		}
+
+		return $validated_input;
+	} 
+	
 	public function kj_simple_button_settings_section_callback(  ) { 
 		// callback
 		echo __( '', 'kj-simple-button' );
