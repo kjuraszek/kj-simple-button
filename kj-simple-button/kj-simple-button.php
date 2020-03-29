@@ -1120,15 +1120,143 @@ EOD;
 			"kj_simple_button_content_value",
 			"kj_simple_button_disabled_posts"
 		);
+		$option_types = array(
+			"kj_simple_button_btn_active" => "checkbox", 
+			"kj_simple_button_advanced_mode" => "checkbox", 
+			"kj_simple_button_height_value" => "number_non_negative", 
+			"kj_simple_button_height_unit" => "text", 
+			"kj_simple_button_width_value" => "number_non_negative", 
+			"kj_simple_button_width_unit" => "text",
+			"kj_simple_button_horizontal_position" => "text", 
+			"kj_simple_button_horizontal_position_value" => "number_non_negative",  
+			"kj_simple_button_horizontal_position_unit" => "text",
+			"kj_simple_button_vertical_position" => "text", 
+			"kj_simple_button_vertical_position_value" => "number_non_negative",  
+			"kj_simple_button_vertical_position_unit" => "text",
+			"kj_simple_button_text_align_value" => "text", 
+			"kj_simple_button_font_size_value" => "number_non_negative", 
+			"kj_simple_button_font_size_unit" => "text",
+			"kj_simple_button_font_family_main" => "text",
+			"kj_simple_button_font_family_fallback" => "text",
+			"kj_simple_button_font_color" => "color",
+			"kj_simple_button_background_color" => "color",
+			"kj_simple_button_line_height_value" => "number_non_negative", 
+			"kj_simple_button_line_height_unit" => "text",
+			"kj_simple_button_opacity_value" => "number_opacity",
+			
+			"kj_simple_button_padding_top_value" => "number_non_negative",
+			"kj_simple_button_padding_top_unit" => "text",
+			"kj_simple_button_padding_right_value" => "number_non_negative",
+			"kj_simple_button_padding_right_unit" => "text",
+			"kj_simple_button_padding_bottom_value" => "number_non_negative",
+			"kj_simple_button_padding_bottom_unit" => "text",
+			"kj_simple_button_padding_left_value" => "number_non_negative",
+			"kj_simple_button_padding_left_unit" => "text",
+			
+			"kj_simple_button_margin_top_value" => "number",
+			"kj_simple_button_margin_top_unit" => "text",
+			"kj_simple_button_margin_right_value" => "number",
+			"kj_simple_button_margin_right_unit" => "text",
+			"kj_simple_button_margin_bottom_value" => "number",
+			"kj_simple_button_margin_bottom_unit" => "text",
+			"kj_simple_button_margin_left_value" => "number",
+			"kj_simple_button_margin_left_unit" => "text",
+			
+			"kj_simple_button_border_value" => "number_non_negative",
+			"kj_simple_button_border_unit" => "text",
+			"kj_simple_button_border_style" => "text",
+			"kj_simple_button_border_color" => "color",
+			
+			"kj_simple_button_border_radius_top_left_value" => "number_non_negative",
+			"kj_simple_button_border_radius_top_left_unit" => "text",
+			"kj_simple_button_border_radius_top_right_value" => "number_non_negative",
+			"kj_simple_button_border_radius_top_right_unit" => "text",
+			"kj_simple_button_border_radius_bottom_right_value" => "number_non_negative",
+			"kj_simple_button_border_radius_bottom_right_unit" => "text",
+			"kj_simple_button_border_radius_bottom_left_value" => "number_non_negative",
+			"kj_simple_button_border_radius_bottom_left_unit" => "text",
+			
+			"kj_simple_button_resolution_max_575" => "checkbox",
+			"kj_simple_button_resolution_min_576" => "checkbox",
+			"kj_simple_button_resolution_min_768" => "checkbox",
+			"kj_simple_button_resolution_min_992" => "checkbox",
+			"kj_simple_button_resolution_min_1200" => "checkbox",
+			
+			"kj_simple_button_transition_duration" => "number_non_negative",
+			"kj_simple_button_transition_timing_function" => "text",
+			"kj_simple_button_transition_delay" => "number_non_negative",
+			
+			"kj_simple_button_hover_font_color_change" => "checkbox",
+			"kj_simple_button_hover_font_color" => "color",
+			"kj_simple_button_hover_background_color_change" => "checkbox",
+			"kj_simple_button_hover_background_color" => "color",
+			"kj_simple_button_hover_opacity_change" => "checkbox",
+			"kj_simple_button_hover_opacity_value" => "number_opacity",
+			"kj_simple_button_hover_border_change" => "checkbox",
+			"kj_simple_button_hover_border_value" => "number_non_negative",
+			"kj_simple_button_hover_border_unit" => "text",
+			"kj_simple_button_hover_border_style" => "text",
+			"kj_simple_button_hover_border_color" => "color",
+
+			
+			"kj_simple_button_href_value" => "text", 
+			"kj_simple_button_rel_value" => "text", 
+			"kj_simple_button_target_value" => "text", 
+			"kj_simple_button_content_value" => "text",
+			"kj_simple_button_disabled_posts" => "text"
+		);
 		$empty_values = array();
+		$bad_values = array();
 		$validated_input = array();
 		foreach($input as $option=>$value){
 			if(array_key_exists($option, $default_options )){
 				if(empty($value) && (string)$value !==  "0" && !in_array($option, $can_be_empty)){
-					array_push($empty_values, "<li>" . str_replace("kj_simple_button_", "", $option) . "</li>");
+					array_push($empty_values, str_replace("kj_simple_button_", "", $option));
 					$validated_input[$option] = $default_options[$option];
 				} else {
-					$validated_input[$option] = $value;
+
+					if(array_key_exists($option, $option_types )){
+						if($option_types[$option] === "checkbox"){
+							if($value === "1"){
+								$validated_input[$option] = $value;
+							} else {
+								$validated_input[$option] = $default_options[$option];
+								array_push($bad_values, str_replace("kj_simple_button_", "", $option));
+							}
+						} else if($option_types[$option] === "number_opacity"){
+							if(is_numeric($value) && $value >= 0 && $value <= 1){
+								$validated_input[$option] = $value;
+							} else {
+								$validated_input[$option] = $default_options[$option];
+								array_push($bad_values, str_replace("kj_simple_button_", "", $option));
+							}
+						} else if($option_types[$option] === "number_non_negative"){
+							if(is_numeric($value) && $value >= 0){
+								$validated_input[$option] = $value;
+							} else {
+								$validated_input[$option] = $default_options[$option];
+								array_push($bad_values, str_replace("kj_simple_button_", "", $option));
+							}
+						} else if($option_types[$option] === "number"){
+							if(is_numeric($value)){
+								$validated_input[$option] = $value;
+							} else {
+								$validated_input[$option] = $default_options[$option];
+								array_push($bad_values, str_replace("kj_simple_button_", "", $option));
+							}
+						} else if($option_types[$option] === "color"){
+							if (preg_match( '/^#[a-f0-9]{6}$/i', $value)){
+								$validated_input[$option] = $value;
+							} else {
+								$validated_input[$option] = $default_options[$option];
+								array_push($bad_values, str_replace("kj_simple_button_", "", $option));
+							}
+							
+						} else if($option_types[$option] === "text"){
+							$validated_input[$option] = $value;
+						} 
+					}
+					
 				}
 			}
 		}
@@ -1140,12 +1268,22 @@ EOD;
 				"success"
 			);
 		
-		if(count($empty_values) > 0){
-			$message = "These options were empty, default values have been set:";
+		if(count($empty_values) > 0 || count($bad_values) > 0  ){
+			if(count($empty_values) > 0){
+				$empty_values_message = "<p>" . "These options were empty, default values have been set: " . implode(", ", $empty_values) . ".</p>";
+			} else {
+				$empty_values_message = "";
+			}
+			if(count(bad_values) > 0){
+				$bad_values_message = "<p>" . "These options had wrong values, default values have been set: " . implode(", ", $bad_values) . ".</p>";
+			} else {
+				$bad_values_message = "";
+			}
+			
 			add_settings_error(
 				'kj_simple_button_errors',
 				esc_attr( 'settings_updated_error' ),
-				"<p>". $message . "</p><ul>" . implode("", $empty_values) . "</ul>",
+				$empty_values_message . $bad_values_message,
 				"error"
 			);
 		}
