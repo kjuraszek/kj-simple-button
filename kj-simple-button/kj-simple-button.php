@@ -98,6 +98,7 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "", 
 		"kj_simple_button_content_value" => "",
+		"kj_simple_button_title_value" => "",
 		"kj_simple_button_disabled_posts" => "");
 		
 		
@@ -277,6 +278,7 @@ EOD;
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_href_value', true)) ? 'href="' . $this->kj_simple_button_get_option('kj_simple_button_href_value', true) . '" ' : '' ;
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_rel_value', true)) ? 'rel="' . $this->kj_simple_button_get_option('kj_simple_button_rel_value', true) . '" ' : '' ;
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_target_value', true)) ? 'target="' . $this->kj_simple_button_get_option('kj_simple_button_target_value', true) . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_title_value', true)) ? 'title="' . $this->kj_simple_button_get_option('kj_simple_button_title_value', true) . '" ' : '' ;
 		echo 'id="kj-simple-button" >';
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value', true)) ? $this->kj_simple_button_get_option('kj_simple_button_content_value', true) : '' ;
 		echo '</a>';
@@ -500,6 +502,13 @@ EOD;
 			'kj_simple_button_content_field', 
 			__( 'Content', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_content_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
+		);
+		add_settings_field( 
+			'kj_simple_button_title_field', 
+			__( 'Title', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_title_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_misc' 
 		);
@@ -1096,6 +1105,17 @@ EOD;
 
 	}
 	
+	public function kj_simple_button_title_field_render(  ) { 
+
+		$title = $this->kj_simple_button_get_option('kj_simple_button_title_value', true);
+		
+		?>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_title_value]' value="<?php echo $title; ?>"> (leave empty if don't need this)
+		<p><em>Title attribute, eg. <strong>Check this out!</strong></em></p>
+		<?php
+
+	}
+	
 	public function kj_simple_button_disabled_posts_field_render(  ) { 
 
 		$disabled_posts = $this->kj_simple_button_get_option('kj_simple_button_disabled_posts', true);
@@ -1203,6 +1223,7 @@ EOD;
 			"kj_simple_button_rel_value" => "text", 
 			"kj_simple_button_target_value" => "text", 
 			"kj_simple_button_content_value" => "text",
+			"kj_simple_button_title_value" => "text",
 			"kj_simple_button_disabled_posts" => "text"
 		);
 		$empty_values = array();
@@ -1253,7 +1274,7 @@ EOD;
 							}
 							
 						} else if($option_types[$option] === "text"){
-							$validated_input[$option] = $value;
+							$validated_input[$option] = sanitize_text_field($value);
 						} 
 					}
 					
