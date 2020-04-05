@@ -101,6 +101,19 @@ class KJ_Simple_Floating_Button {
 		"kj_simple_button_title_value" => "",
 		"kj_simple_button_disabled_posts" => "");
 		
+	static $can_be_empty = array(
+			"kj_simple_button_background_color",
+			"kj_simple_button_border_color",
+			"kj_simple_button_hover_background_color",
+			"kj_simple_button_hover_border_color",
+			"kj_simple_button_href_value", 
+			"kj_simple_button_rel_value", 
+			"kj_simple_button_target_value", 
+			"kj_simple_button_content_value",
+			"kj_simple_button_title_value",
+			"kj_simple_button_disabled_posts"
+		);
+		
 		
     public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'kj_simple_button_enqueue_scripts') );
@@ -164,46 +177,46 @@ EOD;
 a#kj-simple-button{\n
 EOD;
 		fwrite($handle, $css_header);
-		$height_css = "\theight: " . ($this->kj_simple_button_get_option('kj_simple_button_height_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_height_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_height_unit', false) . ";\n";
+		$height_css = "\theight: " . ($this->kj_simple_button_get_option('kj_simple_button_height_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_height_value')) . $this->kj_simple_button_get_option('kj_simple_button_height_unit') . ";\n";
 		fwrite($handle, $height_css);
-		$width_css = "\twidth: " . ($this->kj_simple_button_get_option('kj_simple_button_width_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_width_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_width_unit', false) . ";\n";
+		$width_css = "\twidth: " . ($this->kj_simple_button_get_option('kj_simple_button_width_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_width_value')) . $this->kj_simple_button_get_option('kj_simple_button_width_unit') . ";\n";
 		fwrite($handle, $width_css);
 		
-		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false) . ";\n");
-		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false) . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false) . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false) . ";\n");
-		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false) . ";\n");
+		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position') . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value') . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit') . ";\n");
+		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position') . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value') . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit') . ";\n");
+		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value') . ";\n");
 		
-		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false) . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false) . ";\n");
-		fwrite($handle, "\tfont-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main', false) . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback', false) . ";\n");
+		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value') . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit') . ";\n");
+		fwrite($handle, "\tfont-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main') . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback') . ";\n");
 		
-		fwrite($handle, "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_font_color', false) . ";\n");
-		fwrite($handle, "\tbackground: " . ($this->kj_simple_button_get_option('kj_simple_button_background_color', true) === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_background_color', true)) . ";\n");
+		fwrite($handle, "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_font_color') . ";\n");
+		fwrite($handle, "\tbackground: " . ($this->kj_simple_button_get_option('kj_simple_button_background_color') === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_background_color')) . ";\n");
 		
-		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false) . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false) . ";\n");
+		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value') . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit') . ";\n");
 		
-		fwrite($handle, "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_opacity_value', false) . ";\n");
+		fwrite($handle, "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_opacity_value') . ";\n");
 
-		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false) . ";\n");
-		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false) . ";\n");
-		fwrite($handle, "\tpadding-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit', false) . ";\n");
-		fwrite($handle, "\tpadding-left: " . $this->kj_simple_button_get_option('kj_simple_button_padding_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit', false) . ";\n");
+		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit') . ";\n");
+		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit') . ";\n");
+		fwrite($handle, "\tpadding-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit') . ";\n");
+		fwrite($handle, "\tpadding-left: " . $this->kj_simple_button_get_option('kj_simple_button_padding_left_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit') . ";\n");
 
-		$margin_top_css = "\tmargin-top: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_top_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false) . ";\n";
+		$margin_top_css = "\tmargin-top: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_top_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_top_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit') . ";\n";
 		fwrite($handle, $margin_top_css);
-		$margin_right_css = "\tmargin-right: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_right_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false) . ";\n";
+		$margin_right_css = "\tmargin-right: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_right_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_right_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit') . ";\n";
 		fwrite($handle, $margin_right_css);
-		$margin_bottom_css = "\tmargin-bottom: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false) . ";\n";
+		$margin_bottom_css = "\tmargin-bottom: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit') . ";\n";
 		fwrite($handle, $margin_bottom_css);
-		$margin_left_css = "\tmargin-left: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false)) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false) . ";\n";
+		$margin_left_css = "\tmargin-left: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_left_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_left_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit') . ";\n";
 		fwrite($handle, $margin_left_css);
-		$border_css = "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_border_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_style', false). " " . $this->kj_simple_button_get_option('kj_simple_button_border_color', true) . ";\n";
+		$border_css = "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_border_value') . $this->kj_simple_button_get_option('kj_simple_button_border_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_style'). " " . $this->kj_simple_button_get_option('kj_simple_button_border_color') . ";\n";
 		fwrite($handle, $border_css);
-		$border_radius_css = "\tborder-radius: " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value', false) . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit', false) . ";\n";
+		$border_radius_css = "\tborder-radius: " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit') . ";\n";
 		fwrite($handle, $border_radius_css);
 		
 		$transition_css = "";
 		foreach($browser_prefixes as $b){
-			$transition_css .= "\t" . $b ."transition: all " . $this->kj_simple_button_get_option('kj_simple_button_transition_duration', false) . "s " . $this->kj_simple_button_get_option('kj_simple_button_transition_timing_function', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_transition_delay', false) . "s;\n";
+			$transition_css .= "\t" . $b ."transition: all " . $this->kj_simple_button_get_option('kj_simple_button_transition_duration') . "s " . $this->kj_simple_button_get_option('kj_simple_button_transition_timing_function') . " " . $this->kj_simple_button_get_option('kj_simple_button_transition_delay') . "s;\n";
 		}
 
 		fwrite($handle, $transition_css);
@@ -211,19 +224,19 @@ EOD;
 		fwrite($handle, "}\n");
 		
 		
-		if($this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change', true) === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change', true) === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change', true) === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_border_change', true) === '1' ){
+		if($this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change') === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change') === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change') === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_border_change') === '1' ){
 			$hover_css = "a#kj-simple-button:hover{\n";
-			if($this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change', true) === '1'){
-				$hover_css .= "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_hover_font_color', false) . ";\n";
+			if($this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change') === '1'){
+				$hover_css .= "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_hover_font_color') . ";\n";
 			}
-			if($this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change', true) === '1'){
-				$hover_css .= "\tbackground: " . ($this->kj_simple_button_get_option('kj_simple_button_hover_background_color', true) === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_hover_background_color', true)) . ";\n";
+			if($this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change') === '1'){
+				$hover_css .= "\tbackground: " . ($this->kj_simple_button_get_option('kj_simple_button_hover_background_color') === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_hover_background_color')) . ";\n";
 			}
-			if($this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change', true) === '1'){
-				$hover_css .= "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_value', false) . ";\n";
+			if($this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change') === '1'){
+				$hover_css .= "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_value') . ";\n";
 			}
-			if($this->kj_simple_button_get_option('kj_simple_button_hover_border_change', true) === '1'){
-				$hover_css .=  "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_value', false) . $this->kj_simple_button_get_option('kj_simple_button_hover_border_unit', false) . " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_style', false). " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_color', true) . ";\n";
+			if($this->kj_simple_button_get_option('kj_simple_button_hover_border_change') === '1'){
+				$hover_css .=  "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_value') . $this->kj_simple_button_get_option('kj_simple_button_hover_border_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_style'). " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_color') . ";\n";
 			}
 			$hover_css .= "}\n";
 			fwrite($handle, $hover_css);
@@ -231,11 +244,11 @@ EOD;
 
 
 		$resolutions_css = 
-'@media (max-width:575px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_max_575', true) === '1')?"block":"none").";}}\n".
-'@media (min-width:576px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_576', true) === '1')?"block":"none").";}}\n".
-'@media (min-width:768px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_768', true) === '1')?"block":"none").";}}\n".
-'@media (min-width:992px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_992', true) === '1')?"block":"none").";}}\n".
-'@media (min-width:1200px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200', true) === '1')?"block":"none").";}}\n";
+'@media (max-width:575px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_max_575') === '1')?"block":"none").";}}\n".
+'@media (min-width:576px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_576') === '1')?"block":"none").";}}\n".
+'@media (min-width:768px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_768') === '1')?"block":"none").";}}\n".
+'@media (min-width:992px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_992') === '1')?"block":"none").";}}\n".
+'@media (min-width:1200px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200') === '1')?"block":"none").";}}\n";
 		fwrite($handle, $resolutions_css);
 		
 		
@@ -275,18 +288,20 @@ EOD;
 		}
 		echo '<!-- #kj-simple-button -->';
 		echo '<a ';
-		echo !empty($this->kj_simple_button_get_option('kj_simple_button_href_value', true)) ? 'href="' . $this->kj_simple_button_get_option('kj_simple_button_href_value', true) . '" ' : '' ;
-		echo !empty($this->kj_simple_button_get_option('kj_simple_button_rel_value', true)) ? 'rel="' . $this->kj_simple_button_get_option('kj_simple_button_rel_value', true) . '" ' : '' ;
-		echo !empty($this->kj_simple_button_get_option('kj_simple_button_target_value', true)) ? 'target="' . $this->kj_simple_button_get_option('kj_simple_button_target_value', true) . '" ' : '' ;
-		echo !empty($this->kj_simple_button_get_option('kj_simple_button_title_value', true)) ? 'title="' . $this->kj_simple_button_get_option('kj_simple_button_title_value', true) . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_href_value')) ? 'href="' . $this->kj_simple_button_get_option('kj_simple_button_href_value') . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_rel_value')) ? 'rel="' . $this->kj_simple_button_get_option('kj_simple_button_rel_value') . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_target_value')) ? 'target="' . $this->kj_simple_button_get_option('kj_simple_button_target_value') . '" ' : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_title_value')) ? 'title="' . $this->kj_simple_button_get_option('kj_simple_button_title_value') . '" ' : '' ;
 		echo 'id="kj-simple-button" >';
-		echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value', true)) ? $this->kj_simple_button_get_option('kj_simple_button_content_value', true) : '' ;
+		echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '' ;
 		echo '</a>';
 	}
 
-	public function kj_simple_button_get_option($option_name, $empty) {
+	public function kj_simple_button_get_option($option_name) {
 		$default_options  = self::$default_options;
+		$empty  = in_array($option_name, self::$can_be_empty);
 		$current_options = $this->plugin_options;
+		
 		if(isset($current_options[$option_name]) && ($empty || strval($current_options[$option_name]) === "0" || !empty($current_options[$option_name]))){ 
 			return $current_options[$option_name];
 		} elseif(!$empty) {
@@ -524,7 +539,7 @@ EOD;
 	
 	function kj_simple_button_btn_active_field_render(  ) { 
 	
-		$btn_active = $this->kj_simple_button_get_option('kj_simple_button_btn_active', true);
+		$btn_active = $this->kj_simple_button_get_option('kj_simple_button_btn_active');
 
 		?>
 		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_btn_active]' <?php checked( $btn_active, 1 ); ?> value='1'>
@@ -536,7 +551,7 @@ EOD;
 	
 	function kj_simple_button_advanced_mode_field_render(  ) { 
 	
-		$advanced_mode = $this->kj_simple_button_get_option('kj_simple_button_advanced_mode', true);
+		$advanced_mode = $this->kj_simple_button_get_option('kj_simple_button_advanced_mode');
 
 		?>
 		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_advanced_mode]' <?php checked( $advanced_mode, 1 ); ?> value='1'>
@@ -549,11 +564,11 @@ EOD;
 
 	public function kj_simple_button_height_field_render(  ) { 
 
-		$height = $this->kj_simple_button_get_option('kj_simple_button_height_value', false);
-		$height_unit = $this->kj_simple_button_get_option('kj_simple_button_height_unit', false);
+		$height = $this->kj_simple_button_get_option('kj_simple_button_height_value');
+		$height_unit = $this->kj_simple_button_get_option('kj_simple_button_height_unit');
 		
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_height_value]'  min='0' step='0.1' value=<?php echo $height; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_height_value]'  min='0' step='0.1' value=<?php echo esc_attr($height); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_height_unit]' class='select_with_auto_option' select-for='height'> 
 			<option value='px' <?php selected( $height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $height_unit, '%' ); ?>>%</option>
@@ -568,11 +583,11 @@ EOD;
 
 	public function kj_simple_button_width_field_render(  ) { 
 
-		$width = $this->kj_simple_button_get_option('kj_simple_button_width_value', false);
-		$width_unit = $this->kj_simple_button_get_option('kj_simple_button_width_unit', false);
+		$width = $this->kj_simple_button_get_option('kj_simple_button_width_value');
+		$width_unit = $this->kj_simple_button_get_option('kj_simple_button_width_unit');
 		
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_width_value]' min='0' step='0.1' value=<?php echo $width; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_width_value]' min='0' step='0.1' value=<?php echo esc_attr($width); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_width_unit]' class='select_with_auto_option' select-for='width'> 
 			<option value='px' <?php selected( $width_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $width_unit, '%' ); ?>>%</option>
@@ -588,16 +603,16 @@ EOD;
 	public function kj_simple_button_horizontal_position_field_render(  ) { 
 
 
-		$position = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position', false);
-		$position_value = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value', false);
-		$position_unit = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit', false);
+		$position = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position');
+		$position_value = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value');
+		$position_unit = $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit');
 		
 		?>
 		<select name='kj_simple_button_settings[kj_simple_button_horizontal_position]'> 
 			<option value='left' <?php selected( $position, 'left' ); ?>>left</option>
 			<option value='right' <?php selected( $position, 'right' ); ?>>right</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo $position_value; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_horizontal_position_value]' min='0' step='0.1' value=<?php echo esc_attr($position_value); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_horizontal_position_unit]'> 
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
@@ -612,16 +627,16 @@ EOD;
 	public function kj_simple_button_vertical_position_field_render(  ) { 
 
 
-		$position = $this->kj_simple_button_get_option('kj_simple_button_vertical_position', false);
-		$position_value = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value', false);
-		$position_unit = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit', false);
+		$position = $this->kj_simple_button_get_option('kj_simple_button_vertical_position');
+		$position_value = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value');
+		$position_unit = $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit');
 		
 		?>
 		<select name='kj_simple_button_settings[kj_simple_button_vertical_position]'> 
 			<option value='top' <?php selected( $position, 'top' ); ?>>top</option>
 			<option value='bottom' <?php selected( $position, 'bottom' ); ?>>bottom</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo $position_value; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_vertical_position_value]' min='0' step='0.1' value=<?php echo esc_attr($position_value); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_vertical_position_unit]'> 
 			<option value='px' <?php selected( $position_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $position_unit, '%' ); ?>>%</option>
@@ -635,7 +650,7 @@ EOD;
 	
 	public function kj_simple_button_text_align_field_render(  ) { 
 
-		$text_align = $this->kj_simple_button_get_option('kj_simple_button_text_align_value', false);
+		$text_align = $this->kj_simple_button_get_option('kj_simple_button_text_align_value');
 		
 		?>
 		<select name='kj_simple_button_settings[kj_simple_button_text_align_value]'> 
@@ -652,10 +667,10 @@ EOD;
 	public function kj_simple_button_font_size_field_render(  ) { 
 
 
-		$font_size = $this->kj_simple_button_get_option('kj_simple_button_font_size_value', false);
-		$font_size_unit = $this->kj_simple_button_get_option('kj_simple_button_font_size_unit', false);
+		$font_size = $this->kj_simple_button_get_option('kj_simple_button_font_size_value');
+		$font_size_unit = $this->kj_simple_button_get_option('kj_simple_button_font_size_unit');
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_font_size_value]' min='0' step='0.1' value=<?php echo $font_size; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_font_size_value]' min='0' step='0.1' value=<?php echo esc_attr($font_size); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_font_size_unit]'> 
 			<option value='px' <?php selected( $font_size_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $font_size_unit, '%' ); ?>>%</option>
@@ -671,8 +686,8 @@ EOD;
 	public function kj_simple_button_font_family_field_render(  ) { 
 
 
-		$font_family_main = $this->kj_simple_button_get_option('kj_simple_button_font_family_main', false);
-		$font_family_fallback = $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback', false);
+		$font_family_main = $this->kj_simple_button_get_option('kj_simple_button_font_family_main');
+		$font_family_fallback = $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback');
 		?>
 		
 		<select name='kj_simple_button_settings[kj_simple_button_font_family_main]'> 
@@ -706,10 +721,10 @@ EOD;
 	public function kj_simple_button_font_color_field_render(  ) { 
 
 
-		$font_color = $this->kj_simple_button_get_option('kj_simple_button_font_color', false);
+		$font_color = $this->kj_simple_button_get_option('kj_simple_button_font_color');
 
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_font_color]' class="kj_simple_button_color_picker" data-default-color="#ffffff" value="<?php echo $font_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_font_color]' class="kj_simple_button_color_picker" data-default-color="#ffffff" value="<?php echo esc_attr($font_color); ?>">
 		<p><em>Font color</em></p><br>
 		
 		<?php
@@ -719,10 +734,10 @@ EOD;
 	public function kj_simple_button_background_color_field_render(  ) { 
 
 
-		$background_color = $this->kj_simple_button_get_option('kj_simple_button_background_color', true);
+		$background_color = $this->kj_simple_button_get_option('kj_simple_button_background_color');
 
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_background_color]' class="kj_simple_button_color_picker" data-default-color="#2d2d2d"  value="<?php echo $background_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_background_color]' class="kj_simple_button_color_picker" data-default-color="#2d2d2d"  value="<?php echo esc_attr($background_color); ?>">
 		<p><em>Background color (leave empty for no background)</em></p><br>
 		
 		<?php
@@ -732,10 +747,10 @@ EOD;
 	public function kj_simple_button_line_height_field_render(  ) { 
 
 
-		$line_height = $this->kj_simple_button_get_option('kj_simple_button_line_height_value', false);
-		$line_height_unit = $this->kj_simple_button_get_option('kj_simple_button_line_height_unit', false);
+		$line_height = $this->kj_simple_button_get_option('kj_simple_button_line_height_value');
+		$line_height_unit = $this->kj_simple_button_get_option('kj_simple_button_line_height_unit');
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_line_height_value]' min='0' step='0.1' value=<?php echo $line_height; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_line_height_value]' min='0' step='0.1' value=<?php echo esc_attr($line_height); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_line_height_unit]'> 
 			<option value='px' <?php selected( $line_height_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $line_height_unit, '%' ); ?>>%</option>
@@ -750,9 +765,9 @@ EOD;
 	public function kj_simple_button_opacity_field_render(  ) { 
 
 
-		$opacity = $this->kj_simple_button_get_option('kj_simple_button_opacity_value', false);
+		$opacity = $this->kj_simple_button_get_option('kj_simple_button_opacity_value');
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_opacity_value]' min='0' step='0.1' max='1.0' value=<?php echo $opacity; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_opacity_value]' min='0' step='0.1' max='1.0' value=<?php echo esc_attr($opacity); ?>>
 		<p><em>Opacity</em></p>
 		<?php
 
@@ -761,16 +776,16 @@ EOD;
 	public function kj_simple_button_padding_field_render(  ) { 
 
 
-		$padding_top = $this->kj_simple_button_get_option('kj_simple_button_padding_top_value', false);
-		$padding_top_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit', false);
-		$padding_right = $this->kj_simple_button_get_option('kj_simple_button_padding_right_value', false);
-		$padding_right_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit', false);
-		$padding_bottom = $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value', false);
-		$padding_bottom_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit', false);
-		$padding_left = $this->kj_simple_button_get_option('kj_simple_button_padding_left_value', false);
-		$padding_left_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit', false);
+		$padding_top = $this->kj_simple_button_get_option('kj_simple_button_padding_top_value');
+		$padding_top_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit');
+		$padding_right = $this->kj_simple_button_get_option('kj_simple_button_padding_right_value');
+		$padding_right_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit');
+		$padding_bottom = $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value');
+		$padding_bottom_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit');
+		$padding_left = $this->kj_simple_button_get_option('kj_simple_button_padding_left_value');
+		$padding_left_unit = $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit');
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_top_value]' min='0' step='0.1' value=<?php echo $padding_top; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_top_value]' min='0' step='0.1' value=<?php echo esc_attr($padding_top); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_top_unit]'> 
 			<option value='px' <?php selected( $padding_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_top_unit, '%' ); ?>>%</option>
@@ -779,7 +794,7 @@ EOD;
 		</select> <a class="button-secondary button-set-for-all" button-for="padding" >Set this value for all</a>
 		<p><em>Padding top</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo $padding_right; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_right_value]' min='0' step='0.1' value=<?php echo esc_attr($padding_right); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_right_unit]'> 
 			<option value='px' <?php selected( $padding_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_right_unit, '%' ); ?>>%</option>
@@ -788,7 +803,7 @@ EOD;
 		</select>
 		<p><em>Padding right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_bottom_value]' min='0' step='0.1' value=<?php echo $padding_bottom; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_bottom_value]' min='0' step='0.1' value=<?php echo esc_attr($padding_bottom); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_bottom_unit]'> 
 			<option value='px' <?php selected( $padding_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_bottom_unit, '%' ); ?>>%</option>
@@ -797,7 +812,7 @@ EOD;
 		</select>
 		<p><em>Padding botton</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_left_value]' min='0' step='0.1' value=<?php echo $padding_left; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_padding_left_value]' min='0' step='0.1' value=<?php echo esc_attr($padding_left); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_padding_left_unit]'> 
 			<option value='px' <?php selected( $padding_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $padding_left_unit, '%' ); ?>>%</option>
@@ -812,16 +827,16 @@ EOD;
 	public function kj_simple_button_margin_field_render(  ) { 
 
 
-		$margin_top = $this->kj_simple_button_get_option('kj_simple_button_margin_top_value', false);
-		$margin_top_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit', false);
-		$margin_right = $this->kj_simple_button_get_option('kj_simple_button_margin_right_value', false);
-		$margin_right_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit', false);
-		$margin_bottom = $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value', false);
-		$margin_bottom_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit', false);
-		$margin_left = $this->kj_simple_button_get_option('kj_simple_button_margin_left_value', false);
-		$margin_left_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit', false);
+		$margin_top = $this->kj_simple_button_get_option('kj_simple_button_margin_top_value');
+		$margin_top_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit');
+		$margin_right = $this->kj_simple_button_get_option('kj_simple_button_margin_right_value');
+		$margin_right_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit');
+		$margin_bottom = $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value');
+		$margin_bottom_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit');
+		$margin_left = $this->kj_simple_button_get_option('kj_simple_button_margin_left_value');
+		$margin_left_unit = $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit');
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' step='0.1' value=<?php echo $margin_top; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_top_value]' step='0.1' value=<?php echo esc_attr($margin_top); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_top_unit]' class='select_with_auto_option' select-for='margin_top'> 
 			<option value='px' <?php selected( $margin_top_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_top_unit, '%' ); ?>>%</option>
@@ -831,7 +846,7 @@ EOD;
 		</select> <a class="button-secondary button-set-for-all" button-for="margin" >Set this value for all</a>
 		<p><em>Margin top</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' step='0.1' value=<?php echo $margin_right; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_right_value]' step='0.1' value=<?php echo esc_attr($margin_right); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_right_unit]' class='select_with_auto_option' select-for='margin_right'> 
 			<option value='px' <?php selected( $margin_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_right_unit, '%' ); ?>>%</option>
@@ -841,7 +856,7 @@ EOD;
 		</select>
 		<p><em>Margin right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' step='0.1' value=<?php echo $margin_bottom; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_bottom_value]' step='0.1' value=<?php echo esc_attr($margin_bottom); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_bottom_unit]' class='select_with_auto_option' select-for='margin_bottom'> 
 			<option value='px' <?php selected( $margin_bottom_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_bottom_unit, '%' ); ?>>%</option>
@@ -851,7 +866,7 @@ EOD;
 		</select>
 		<p><em>Margin bottom</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' step='0.1' value=<?php echo $margin_left; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_margin_left_value]' step='0.1' value=<?php echo esc_attr($margin_left); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_margin_left_unit]' class='select_with_auto_option' select-for='margin_left'> 
 			<option value='px' <?php selected( $margin_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $margin_left_unit, '%' ); ?>>%</option>
@@ -867,13 +882,13 @@ EOD;
 	public function kj_simple_button_border_field_render(  ) { 
 
 
-		$border_value = $this->kj_simple_button_get_option('kj_simple_button_border_value', false);
-		$border_unit = $this->kj_simple_button_get_option('kj_simple_button_border_unit', false);
-		$border_style = $this->kj_simple_button_get_option('kj_simple_button_border_style', false);
-		$border_color = $this->kj_simple_button_get_option('kj_simple_button_border_color', true);
+		$border_value = $this->kj_simple_button_get_option('kj_simple_button_border_value');
+		$border_unit = $this->kj_simple_button_get_option('kj_simple_button_border_unit');
+		$border_style = $this->kj_simple_button_get_option('kj_simple_button_border_style');
+		$border_color = $this->kj_simple_button_get_option('kj_simple_button_border_color');
 
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_value]' min='0' step='0.1' value=<?php echo $border_value; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_value]' min='0' step='0.1' value=<?php echo esc_attr($border_value); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_border_unit]'> 
 			<option value='px' <?php selected( $border_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $border_unit, '%' ); ?>>%</option>
@@ -893,7 +908,7 @@ EOD;
 			<option value='none' <?php selected( $border_style, 'none' ); ?>>none</option>
 			<option value='hidden' <?php selected( $border_style, 'hidden' ); ?>>hidden</option>
 		</select>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_border_color]' class="kj_simple_button_color_picker" data-default-color="#d8e2ff"  value="<?php echo $border_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_border_color]' class="kj_simple_button_color_picker" data-default-color="#d8e2ff"  value="<?php echo esc_attr($border_color); ?>">
 		<p><em>Border styling</em></p><br>
 		
 		<?php
@@ -903,16 +918,16 @@ EOD;
 	public function kj_simple_button_border_radius_field_render(  ) { 
 
 
-		$border_radius_top_left = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value', false);
-		$border_radius_top_left_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit', false);
-		$border_radius_top_right = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value', false);
-		$border_radius_top_right_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit', false);
-		$border_radius_bottom_right = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value', false);
-		$border_radius_bottom_right_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit', false);
-		$border_radius_bottom_left = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value', false);
-		$border_radius_bottom_left_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit', false);
+		$border_radius_top_left = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value');
+		$border_radius_top_left_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit');
+		$border_radius_top_right = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value');
+		$border_radius_top_right_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit');
+		$border_radius_bottom_right = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value');
+		$border_radius_bottom_right_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit');
+		$border_radius_bottom_left = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value');
+		$border_radius_bottom_left_unit = $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit');
 		?>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_left_value]' min='0' step='0.1' value=<?php echo $border_radius_top_left; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_left_value]' min='0' step='0.1' value=<?php echo esc_attr($border_radius_top_left); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_border_radius_top_left_unit]'> 
 			<option value='px' <?php selected( $border_radius_top_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $border_radius_top_left_unit, '%' ); ?>>%</option>
@@ -921,7 +936,7 @@ EOD;
 		</select> <a class="button-secondary button-set-for-all" button-for="border-radius" >Set this value for all</a>
 		<p><em>Border radius top left</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_right_value]' min='0' step='0.1' value=<?php echo $border_radius_top_right; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_top_right_value]' min='0' step='0.1' value=<?php echo esc_attr($border_radius_top_right); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_border_radius_top_right_unit]'> 
 			<option value='px' <?php selected( $border_radius_top_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $border_radius_top_right_unit, '%' ); ?>>%</option>
@@ -930,7 +945,7 @@ EOD;
 		</select>
 		<p><em>Border radius top right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_right_value]' min='0' step='0.1' value=<?php echo $border_radius_bottom_right; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_right_value]' min='0' step='0.1' value=<?php echo esc_attr($border_radius_bottom_right); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_right_unit]'> 
 			<option value='px' <?php selected( $border_radius_bottom_right_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $border_radius_bottom_right_unit, '%' ); ?>>%</option>
@@ -939,7 +954,7 @@ EOD;
 		</select>
 		<p><em>Border radius bottom right</em></p><br>
 		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_left_value]' min='0' step='0.1' value=<?php echo $border_radius_bottom_left; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_left_value]' min='0' step='0.1' value=<?php echo esc_attr($border_radius_bottom_left); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_border_radius_bottom_left_unit]'> 
 			<option value='px' <?php selected( $border_radius_bottom_left_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $border_radius_bottom_left_unit, '%' ); ?>>%</option>
@@ -954,11 +969,11 @@ EOD;
 	
 	function kj_simple_button_resolutions_field_render(  ) { 
 	
-		$resolution_max_575 = $this->kj_simple_button_get_option('kj_simple_button_resolution_max_575', true);
-		$resolution_min_576 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_576', true);
-		$resolution_min_768 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_768', true);
-		$resolution_min_992 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_992', true);
-		$resolution_min_1200 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200', true);
+		$resolution_max_575 = $this->kj_simple_button_get_option('kj_simple_button_resolution_max_575');
+		$resolution_min_576 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_576');
+		$resolution_min_768 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_768');
+		$resolution_min_992 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_992');
+		$resolution_min_1200 = $this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200');
 
 		?>
 		<p><label><input type='checkbox' name='kj_simple_button_settings[kj_simple_button_resolution_max_575]' <?php checked( $resolution_max_575, 1 ); ?> value='1'>
@@ -977,13 +992,13 @@ EOD;
 	
 	public function kj_simple_button_transition_field_render(  ) { 
 		
-		$duration = $this->kj_simple_button_get_option('kj_simple_button_transition_duration', false);
-		$timing_function = $this->kj_simple_button_get_option('kj_simple_button_transition_timing_function', false);
-		$delay = $this->kj_simple_button_get_option('kj_simple_button_transition_delay', false);
+		$duration = $this->kj_simple_button_get_option('kj_simple_button_transition_duration');
+		$timing_function = $this->kj_simple_button_get_option('kj_simple_button_transition_timing_function');
+		$delay = $this->kj_simple_button_get_option('kj_simple_button_transition_delay');
 		
 		?>
 
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_transition_duration]' min='0' step='0.1' value=<?php echo $duration; ?>>s 
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_transition_duration]' min='0' step='0.1' value=<?php echo esc_attr($duration); ?>>s 
 		<select name='kj_simple_button_settings[timing_function]'> 
 			<option value='ease' <?php selected( $timing_function, 'ease' ); ?>>ease</option>
 			<option value='linear' <?php selected( $timing_function, 'linear' ); ?>>linear</option>
@@ -991,7 +1006,7 @@ EOD;
 			<option value='ease-out' <?php selected( $timing_function, 'ease-out' ); ?>>ease-out</option>
 			<option value='ease-in-out' <?php selected( $timing_function, 'ease-in-out' ); ?>>ease-in-out</option>
 		</select>
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_transition_delay]' min='0' step='0.1' value=<?php echo $delay; ?>>s 
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_transition_delay]' min='0' step='0.1' value=<?php echo esc_attr($delay); ?>>s 
 
 		<p><em>Transition duration[s], timing function and delay[s]. Set <strong>duration = 0</strong> for no transition.</em></p>
 		<?php
@@ -1000,37 +1015,37 @@ EOD;
 	
 	public function kj_simple_button_hover_field_render(  ) { 
 
-		$font_color_change = $this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change', true);
-		$font_color = $this->kj_simple_button_get_option('kj_simple_button_hover_font_color', false);
-		$background_color_change = $this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change', true);
-		$background_color = $this->kj_simple_button_get_option('kj_simple_button_hover_background_color', true);
-		$opacity_change = $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change', true);
-		$opacity = $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_value', false);
+		$font_color_change = $this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change');
+		$font_color = $this->kj_simple_button_get_option('kj_simple_button_hover_font_color');
+		$background_color_change = $this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change');
+		$background_color = $this->kj_simple_button_get_option('kj_simple_button_hover_background_color');
+		$opacity_change = $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change');
+		$opacity = $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_value');
 		
-		$border_change = $this->kj_simple_button_get_option('kj_simple_button_hover_border_change', true);
-		$border_value = $this->kj_simple_button_get_option('kj_simple_button_hover_border_value', false);
-		$border_unit = $this->kj_simple_button_get_option('kj_simple_button_hover_border_unit', false);
-		$border_style = $this->kj_simple_button_get_option('kj_simple_button_hover_border_style', false);
-		$border_color = $this->kj_simple_button_get_option('kj_simple_button_hover_border_color', true);
+		$border_change = $this->kj_simple_button_get_option('kj_simple_button_hover_border_change');
+		$border_value = $this->kj_simple_button_get_option('kj_simple_button_hover_border_value');
+		$border_unit = $this->kj_simple_button_get_option('kj_simple_button_hover_border_unit');
+		$border_style = $this->kj_simple_button_get_option('kj_simple_button_hover_border_style');
+		$border_color = $this->kj_simple_button_get_option('kj_simple_button_hover_border_color');
 		?>
 		
 		<div class="hover_group_parent">
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_hover_font_color]' class='hover_font_color kj_simple_button_color_picker' data-default-color='#ffffff' value='<?php echo $font_color; ?>'>
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_hover_font_color]' class='hover_font_color kj_simple_button_color_picker' data-default-color='#ffffff' value='<?php echo esc_attr($font_color); ?>'>
 		<label><input class="checkbox-change-hover" type='checkbox' name='kj_simple_button_settings[kj_simple_button_hover_font_color_change]' <?php checked( $font_color_change, 1 ); ?> value='1'>Change on hover</label>
 		<p><em>Font color</em></p><br>
 		</div>
 		<div class="hover_group_parent">
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_hover_background_color]' class="hover_background_color kj_simple_button_color_picker" data-default-color="#2d2d2d"  value="<?php echo $background_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_hover_background_color]' class="hover_background_color kj_simple_button_color_picker" data-default-color="#2d2d2d"  value="<?php echo esc_attr($background_color); ?>">
 		<label><input class="checkbox-change-hover" type='checkbox' name='kj_simple_button_settings[kj_simple_button_hover_background_color_change]' <?php checked( $background_color_change, 1 ); ?> value='1'>Change on hover</label>
 		<p><em>Background color (leave empty for no background)</em></p><br>
 		</div>
 		<div class="hover_group_parent">		
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_hover_opacity_value]' class='hover_opacity'  min='0' step='0.1' max='1.0' value=<?php echo $opacity; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_hover_opacity_value]' class='hover_opacity'  min='0' step='0.1' max='1.0' value=<?php echo esc_attr($opacity); ?>>
 		<label><input class='checkbox-change-hover' type='checkbox' name='kj_simple_button_settings[kj_simple_button_hover_opacity_change]' <?php checked( $opacity_change, 1 ); ?> value='1'>Change on hover</label>
 		<p><em>Opacity</em></p><br>
 		</div>
 		<div class="hover_group_parent">
-		<input type='number' name='kj_simple_button_settings[kj_simple_button_hover_border_value]'  class='hover_border' min='0' step='0.1' value=<?php echo $border_value; ?>>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_hover_border_value]'  class='hover_border' min='0' step='0.1' value=<?php echo esc_attr($border_value); ?>>
 		<select name='kj_simple_button_settings[kj_simple_button_hover_border_unit]' class='hover_border'> 
 			<option value='px' <?php selected( $border_unit, 'px' ); ?>>px</option>
 			<option value='%' <?php selected( $border_unit, '%' ); ?>>%</option>
@@ -1050,7 +1065,7 @@ EOD;
 			<option value='none' <?php selected( $border_style, 'none' ); ?>>none</option>
 			<option value='hidden' <?php selected( $border_style, 'hidden' ); ?>>hidden</option>
 		</select>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_hover_border_color]' class="hover_border kj_simple_button_color_picker" data-default-color="#d8e2ff"  value="<?php echo $border_color; ?>">
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_hover_border_color]' class="hover_border kj_simple_button_color_picker" data-default-color="#d8e2ff"  value="<?php echo esc_attr($border_color); ?>">
 		<label><input class="checkbox-change-hover" type='checkbox' name='kj_simple_button_settings[kj_simple_button_hover_border_change]' <?php checked( $border_change, 1 ); ?> value='1'>Change on hover</label>
 		<p><em>Border styling</em></p><br>
 		</div>
@@ -1061,10 +1076,10 @@ EOD;
 
 	public function kj_simple_button_href_field_render(  ) { 
 
-		$href = $this->kj_simple_button_get_option('kj_simple_button_href_value', true);
+		$href = $this->kj_simple_button_get_option('kj_simple_button_href_value');
 		
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_href_value]' value="<?php echo $href; ?>"> (leave empty if don't need this)
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_href_value]' value="<?php echo esc_url($href); ?>"> (leave empty if don't need this)
 
 		<p><em>Href attribute, eg. <strong>https://google.com</strong></em></p>
 		<?php
@@ -1073,10 +1088,10 @@ EOD;
 	
 	public function kj_simple_button_rel_field_render(  ) { 
 
-		$rel = $this->kj_simple_button_get_option('kj_simple_button_rel_value', true);
+		$rel = $this->kj_simple_button_get_option('kj_simple_button_rel_value');
 		
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_rel_value]' value="<?php echo $rel; ?>"> (leave empty if don't need this)
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_rel_value]' value="<?php echo esc_attr($rel); ?>"> (leave empty if don't need this)
 
 		<p><em>Rel attribute, eg. <strong>noindex</strong></em></p>
 		<?php
@@ -1085,10 +1100,10 @@ EOD;
 	
 	public function kj_simple_button_target_field_render(  ) { 
 
-		$target = $this->kj_simple_button_get_option('kj_simple_button_target_value', true);
+		$target = $this->kj_simple_button_get_option('kj_simple_button_target_value');
 		
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_target_value]' value="<?php echo $target; ?>"> (leave empty if don't need this)
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_target_value]' value="<?php echo esc_attr($target); ?>"> (leave empty if don't need this)
 		<p><em>Target attribute, eg. <strong>_blank</strong></em></p>
 		<?php
 
@@ -1096,10 +1111,10 @@ EOD;
 
 	public function kj_simple_button_content_field_render(  ) { 
 
-		$content = $this->kj_simple_button_get_option('kj_simple_button_content_value', true);
+		$content = $this->kj_simple_button_get_option('kj_simple_button_content_value');
 		
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_content_value]' value="<?php echo $content; ?>"> (leave empty if don't need this)
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_content_value]' value="<?php echo esc_attr($content); ?>"> (leave empty if don't need this)
 		<p><em>Text inside button, eg. <strong>Check this out!</strong></em></p>
 		<?php
 
@@ -1107,10 +1122,10 @@ EOD;
 	
 	public function kj_simple_button_title_field_render(  ) { 
 
-		$title = $this->kj_simple_button_get_option('kj_simple_button_title_value', true);
+		$title = $this->kj_simple_button_get_option('kj_simple_button_title_value');
 		
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_title_value]' value="<?php echo $title; ?>"> (leave empty if don't need this)
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_title_value]' value="<?php echo esc_attr($title); ?>"> (leave empty if don't need this)
 		<p><em>Title attribute, eg. <strong>Check this out!</strong></em></p>
 		<?php
 
@@ -1118,10 +1133,10 @@ EOD;
 	
 	public function kj_simple_button_disabled_posts_field_render(  ) { 
 
-		$disabled_posts = $this->kj_simple_button_get_option('kj_simple_button_disabled_posts', true);
+		$disabled_posts = $this->kj_simple_button_get_option('kj_simple_button_disabled_posts');
 		
 		?>
-		<input type='text' name='kj_simple_button_settings[kj_simple_button_disabled_posts]' value="<?php echo $disabled_posts; ?>"> (leave empty if don't need this)
+		<input type='text' name='kj_simple_button_settings[kj_simple_button_disabled_posts]' value="<?php echo esc_attr($disabled_posts); ?>"> (leave empty if don't need this)
 		<p><em>Don't show button on posts with these IDs (separated with commas), eg. <strong>10,16,103</strong></em></p>
 		<?php
 
@@ -1129,17 +1144,8 @@ EOD;
 
 	public function kj_simple_button_settings_validation($input) {
 		$default_options  = self::$default_options;
-		$can_be_empty = array(
-			"kj_simple_button_background_color",
-			"kj_simple_button_border_color",
-			"kj_simple_button_hover_background_color",
-			"kj_simple_button_hover_border_color",
-			"kj_simple_button_href_value", 
-			"kj_simple_button_rel_value", 
-			"kj_simple_button_target_value", 
-			"kj_simple_button_content_value",
-			"kj_simple_button_disabled_posts"
-		);
+		$can_be_empty  = self::$can_be_empty;
+		
 		$option_types = array(
 			"kj_simple_button_btn_active" => "checkbox", 
 			"kj_simple_button_advanced_mode" => "checkbox", 
@@ -1291,12 +1297,12 @@ EOD;
 		
 		if(count($empty_values) > 0 || count($bad_values) > 0  ){
 			if(count($empty_values) > 0){
-				$empty_values_message = "<p>" . "These options were empty, default values have been set: " . implode(", ", $empty_values) . ".</p>";
+				$empty_values_message = "<p>" . "These options were empty, default values have been set: " . esc_html(implode(", ", $empty_values)) . ".</p>";
 			} else {
 				$empty_values_message = "";
 			}
-			if(count(bad_values) > 0){
-				$bad_values_message = "<p>" . "These options had wrong values, default values have been set: " . implode(", ", $bad_values) . ".</p>";
+			if(count($bad_values) > 0){
+				$bad_values_message = "<p>" . "These options had wrong values, default values have been set: " . esc_html(implode(", ", $bad_values)) . ".</p>";
 			} else {
 				$bad_values_message = "";
 			}
