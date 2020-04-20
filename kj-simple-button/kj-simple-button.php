@@ -175,96 +175,94 @@ EOD;
 		$this->plugin_options = get_option( "kj_simple_button_settings" );
 		$browser_prefixes = array("-webkit-", "-moz-", "-ms-", "-o-", "");
 		$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
-		$creation_date = date('Y-m-d H:i:s', strtotime(current_time('mysql')));
-		$css_header = <<< EOD
+		$css_content = <<< EOD
 /* THIS FILE IS GENERATED AUTOMATICALLY VIA PLUGIN OPTIONS, DO NOT EDIT */
-/* GENERATED: $creation_date */
-a#kj-simple-button{\n
+a#kj-simple-button{position:fixed;z-index:9999;text-decoration:none;
 EOD;
-		fwrite($handle, $css_header);
-		$height_css = "\theight: " . ($this->kj_simple_button_get_option('kj_simple_button_height_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_height_value')) . $this->kj_simple_button_get_option('kj_simple_button_height_unit') . ";\n";
-		fwrite($handle, $height_css);
-		$width_css = "\twidth: " . ($this->kj_simple_button_get_option('kj_simple_button_width_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_width_value')) . $this->kj_simple_button_get_option('kj_simple_button_width_unit') . ";\n";
-		fwrite($handle, $width_css);
 		
-		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position') . ": " . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value') . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit') . ";\n");
-		fwrite($handle, "\t" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position') . ": " . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value') . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit') . ";\n");
-		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value') . ";\n");
+		$height_css = "height:" . ($this->kj_simple_button_get_option('kj_simple_button_height_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_height_value')) . $this->kj_simple_button_get_option('kj_simple_button_height_unit') . ";";
+		$css_content .= $height_css;
+		$width_css = "width:" . ($this->kj_simple_button_get_option('kj_simple_button_width_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_width_value')) . $this->kj_simple_button_get_option('kj_simple_button_width_unit') . ";";
+		$css_content .= $width_css;
 		
-		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value') . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit') . ";\n");
-		fwrite($handle, "\tfont-weight: " . $this->kj_simple_button_get_option('kj_simple_button_font_weight_value') . ";\n");
-		fwrite($handle, "\tfont-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main') . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback') . ";\n");
+		$css_content .= $this->kj_simple_button_get_option('kj_simple_button_horizontal_position') . ":" . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_value') . $this->kj_simple_button_get_option('kj_simple_button_horizontal_position_unit') . ";";
+		$css_content .= $this->kj_simple_button_get_option('kj_simple_button_vertical_position') . ":" . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_value') . $this->kj_simple_button_get_option('kj_simple_button_vertical_position_unit') . ";";
+		$css_content .= "text-align:" . $this->kj_simple_button_get_option('kj_simple_button_text_align_value') . ";";
 		
-		fwrite($handle, "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_font_color') . ";\n");
-		fwrite($handle, "\tbackground: " . ($this->kj_simple_button_get_option('kj_simple_button_background_color') === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_background_color')) . ";\n");
+		$css_content .= "font-size:" . $this->kj_simple_button_get_option('kj_simple_button_font_size_value') . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit') . ";";
+		$css_content .= "font-weight:" . $this->kj_simple_button_get_option('kj_simple_button_font_weight_value') . ";";
+		$css_content .= "font-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main') . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback') . ";";
 		
-		fwrite($handle, "\tline-height: " . $this->kj_simple_button_get_option('kj_simple_button_line_height_value') . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit') . ";\n");
+		$css_content .= "color:" . $this->kj_simple_button_get_option('kj_simple_button_font_color') . ";";
+		$css_content .= "background:" . ($this->kj_simple_button_get_option('kj_simple_button_background_color') === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_background_color')) . ";";
 		
-		fwrite($handle, "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_opacity_value') . ";\n");
+		$css_content .= "line-height:" . $this->kj_simple_button_get_option('kj_simple_button_line_height_value') . $this->kj_simple_button_get_option('kj_simple_button_line_height_unit') . ";";
+		
+		$css_content .= "opacity:" . $this->kj_simple_button_get_option('kj_simple_button_opacity_value') . ";";
 
-		fwrite($handle, "\tpadding-top: " . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit') . ";\n");
-		fwrite($handle, "\tpadding-right: " . $this->kj_simple_button_get_option('kj_simple_button_padding_right_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit') . ";\n");
-		fwrite($handle, "\tpadding-bottom: " . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit') . ";\n");
-		fwrite($handle, "\tpadding-left: " . $this->kj_simple_button_get_option('kj_simple_button_padding_left_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit') . ";\n");
+		$css_content .= "padding:" . $this->kj_simple_button_get_option('kj_simple_button_padding_top_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_top_unit') . " ";
+		$css_content .= $this->kj_simple_button_get_option('kj_simple_button_padding_right_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_right_unit') . " ";
+		$css_content .= $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_bottom_unit') . " ";
+		$css_content .= $this->kj_simple_button_get_option('kj_simple_button_padding_left_value') . $this->kj_simple_button_get_option('kj_simple_button_padding_left_unit') . ";";
 
-		$margin_top_css = "\tmargin-top: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_top_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_top_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit') . ";\n";
-		fwrite($handle, $margin_top_css);
-		$margin_right_css = "\tmargin-right: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_right_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_right_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit') . ";\n";
-		fwrite($handle, $margin_right_css);
-		$margin_bottom_css = "\tmargin-bottom: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit') . ";\n";
-		fwrite($handle, $margin_bottom_css);
-		$margin_left_css = "\tmargin-left: " . ($this->kj_simple_button_get_option('kj_simple_button_margin_left_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_left_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit') . ";\n";
-		fwrite($handle, $margin_left_css);
-		$border_css = "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_border_value') . $this->kj_simple_button_get_option('kj_simple_button_border_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_style'). " " . $this->kj_simple_button_get_option('kj_simple_button_border_color') . ";\n";
-		fwrite($handle, $border_css);
-		$border_radius_css = "\tborder-radius: " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit') . ";\n";
-		fwrite($handle, $border_radius_css);
+		$margin_top_css = "margin:" . ($this->kj_simple_button_get_option('kj_simple_button_margin_top_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_top_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_top_unit') . " ";
+		$css_content .= $margin_top_css;
+		$margin_right_css = ($this->kj_simple_button_get_option('kj_simple_button_margin_right_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_right_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_right_unit') . " ";
+		$css_content .= $margin_right_css;
+		$margin_bottom_css = ($this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_bottom_unit') . " ";
+		$css_content .= $margin_bottom_css;
+		$margin_left_css = ($this->kj_simple_button_get_option('kj_simple_button_margin_left_unit') === "auto" ? "" : $this->kj_simple_button_get_option('kj_simple_button_margin_left_value')) . $this->kj_simple_button_get_option('kj_simple_button_margin_left_unit') . ";";
+		$css_content .= $margin_left_css;
+		$border_css = "border:" . $this->kj_simple_button_get_option('kj_simple_button_border_value') . $this->kj_simple_button_get_option('kj_simple_button_border_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_style'). " " . $this->kj_simple_button_get_option('kj_simple_button_border_color') . ";";
+		$css_content .= $border_css;
+		$border_radius_css = "border-radius:" . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_left_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_top_right_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_right_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_value') . $this->kj_simple_button_get_option('kj_simple_button_border_radius_bottom_left_unit') . ";";
+		$css_content .= $border_radius_css;
 		
 		$transition_css = "";
 		foreach($browser_prefixes as $b){
-			$transition_css .= "\t" . $b ."transition: all " . $this->kj_simple_button_get_option('kj_simple_button_transition_duration') . "s " . $this->kj_simple_button_get_option('kj_simple_button_transition_timing_function') . " " . $this->kj_simple_button_get_option('kj_simple_button_transition_delay') . "s;\n";
+			$transition_css .= "" . $b ."transition: all " . $this->kj_simple_button_get_option('kj_simple_button_transition_duration') . "s " . $this->kj_simple_button_get_option('kj_simple_button_transition_timing_function') . " " . $this->kj_simple_button_get_option('kj_simple_button_transition_delay') . "s;";
 		}
 
-		fwrite($handle, $transition_css);
-		
-		fwrite($handle, "}\n");
-		
-		
+		$css_content .= $transition_css;
+		$css_content .= "}";
+
 		if($this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change') === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change') === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change') === '1' || $this->kj_simple_button_get_option('kj_simple_button_hover_border_change') === '1' ){
-			$hover_css = "a#kj-simple-button:hover{\n";
+			$hover_css = "a#kj-simple-button:hover{";
 			if($this->kj_simple_button_get_option('kj_simple_button_hover_font_color_change') === '1'){
-				$hover_css .= "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_hover_font_color') . ";\n";
+				$hover_css .= "color:" . $this->kj_simple_button_get_option('kj_simple_button_hover_font_color') . ";";
 			}
 			if($this->kj_simple_button_get_option('kj_simple_button_hover_background_color_change') === '1'){
-				$hover_css .= "\tbackground: " . ($this->kj_simple_button_get_option('kj_simple_button_hover_background_color') === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_hover_background_color')) . ";\n";
+				$hover_css .= "background:" . ($this->kj_simple_button_get_option('kj_simple_button_hover_background_color') === "" ? "none" : $this->kj_simple_button_get_option('kj_simple_button_hover_background_color')) . ";";
 			}
 			if($this->kj_simple_button_get_option('kj_simple_button_hover_opacity_change') === '1'){
-				$hover_css .= "\topacity: " . $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_value') . ";\n";
+				$hover_css .= "opacity:" . $this->kj_simple_button_get_option('kj_simple_button_hover_opacity_value') . ";";
 			}
 			if($this->kj_simple_button_get_option('kj_simple_button_hover_border_change') === '1'){
-				$hover_css .=  "\tborder: " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_value') . $this->kj_simple_button_get_option('kj_simple_button_hover_border_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_style'). " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_color') . ";\n";
+				$hover_css .=  "border:" . $this->kj_simple_button_get_option('kj_simple_button_hover_border_value') . $this->kj_simple_button_get_option('kj_simple_button_hover_border_unit') . " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_style'). " " . $this->kj_simple_button_get_option('kj_simple_button_hover_border_color') . ";";
 			}
-			$hover_css .= "}\n";
-			fwrite($handle, $hover_css);
+			$hover_css .= "}";
+			$css_content .= $hover_css;
 		} 
 
 
 		$resolutions_css = 
-'@media (max-width:575px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_max_575') === '1')?"block":"none").";}}\n".
-'@media (min-width:576px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_576') === '1')?"block":"none").";}}\n".
-'@media (min-width:768px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_768') === '1')?"block":"none").";}}\n".
-'@media (min-width:992px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_992') === '1')?"block":"none").";}}\n".
-'@media (min-width:1200px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200') === '1')?"block":"none").";}}\n";
-		fwrite($handle, $resolutions_css);
+'@media (max-width:575px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_max_575') === '1')?"block":"none").";}}".
+'@media (min-width:576px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_576') === '1')?"block":"none").";}}".
+'@media (min-width:768px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_768') === '1')?"block":"none").";}}".
+'@media (min-width:992px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_992') === '1')?"block":"none").";}}".
+'@media (min-width:1200px){a#kj-simple-button{display:'. (($this->kj_simple_button_get_option('kj_simple_button_resolution_min_1200') === '1')?"block":"none").";}}";
+		$css_content .= $resolutions_css;
 		
+		$css_content .= "#kj-simple-button span.dashicons{line-height:inherit;font-style:inherit;font-size:inherit;font-weight:inherit;	text-align:inherit;height:100%;width:100%;}#kj-simple-button img{border-radius:inherit;border:inherit;height:100%;width:100%;}";
 		
+		fwrite($handle, $css_content);
 
 		fclose($handle);
+
 	}
 
     public function kj_simple_button_enqueue_scripts() {
 		wp_enqueue_style( 'dashicons' );
-		wp_enqueue_style('KJ_Simple_Button', plugins_url('assets/css/style.css', __FILE__), null, '');
 		wp_enqueue_style('KJ_Simple_Button_custom', plugins_url('assets/css/custom-style.css', __FILE__), null, '');
 
 	}
