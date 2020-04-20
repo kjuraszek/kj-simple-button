@@ -31,6 +31,7 @@ class KJ_Simple_Button {
 		"kj_simple_button_text_align_value" => "center", 
 		"kj_simple_button_font_size_value" => 12, 
 		"kj_simple_button_font_size_unit" => "px",
+		"kj_simple_button_font_weight_value" => 400, 
 		"kj_simple_button_font_family_main" => "Arial Black",
 		"kj_simple_button_font_family_fallback" => "sans-serif",
 		"kj_simple_button_font_color" => "#ffffff",
@@ -97,6 +98,7 @@ class KJ_Simple_Button {
 		"kj_simple_button_href_value" => "#", 
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "", 
+		"kj_simple_button_content_type" => "text",
 		"kj_simple_button_content_value" => "",
 		"kj_simple_button_title_value" => "",
 		"kj_simple_button_disabled_posts" => "");
@@ -190,6 +192,7 @@ EOD;
 		fwrite($handle, "\ttext-align: " . $this->kj_simple_button_get_option('kj_simple_button_text_align_value') . ";\n");
 		
 		fwrite($handle, "\tfont-size: " . $this->kj_simple_button_get_option('kj_simple_button_font_size_value') . $this->kj_simple_button_get_option('kj_simple_button_font_size_unit') . ";\n");
+		fwrite($handle, "\tfont-weight: " . $this->kj_simple_button_get_option('kj_simple_button_font_weight_value') . ";\n");
 		fwrite($handle, "\tfont-family: '" . $this->kj_simple_button_get_option('kj_simple_button_font_family_main') . "', " . $this->kj_simple_button_get_option('kj_simple_button_font_family_fallback') . ";\n");
 		
 		fwrite($handle, "\tcolor: " . $this->kj_simple_button_get_option('kj_simple_button_font_color') . ";\n");
@@ -260,12 +263,14 @@ EOD;
 	}
 
     public function kj_simple_button_enqueue_scripts() {
+		wp_enqueue_style( 'dashicons' );
 		wp_enqueue_style('KJ_Simple_Button', plugins_url('assets/css/style.css', __FILE__), null, '');
 		wp_enqueue_style('KJ_Simple_Button_custom', plugins_url('assets/css/custom-style.css', __FILE__), null, '');
 
 	}
 	
 	public function kj_simple_button_admin_enqueue_scripts() {
+		wp_enqueue_style( 'dashicons' );
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script('KJ_Simple_Button_admin_js', plugins_url('admin/js/admin.js', __FILE__), array('jquery', 'wp-color-picker' ));
 	}
@@ -296,7 +301,14 @@ EOD;
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_target_value')) ? 'target="' . $this->kj_simple_button_get_option('kj_simple_button_target_value') . '" ' : '' ;
 		echo !empty($this->kj_simple_button_get_option('kj_simple_button_title_value')) ? 'title="' . $this->kj_simple_button_get_option('kj_simple_button_title_value') . '" ' : '' ;
 		echo 'id="kj-simple-button" >';
-		echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '' ;
+		$content_type = $this->kj_simple_button_get_option('kj_simple_button_content_type');
+		if($content_type === 'image'){
+			echo '<img src="' . (!empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '') . '"/>' ;
+		} elseif($content_type === 'icon'){
+			echo '<span class="dashicons ' . (!empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '') . '"></span>' ;
+		} else{
+			echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '' ;
+		}
 		echo '</a>';
 	}
 
@@ -391,6 +403,13 @@ EOD;
 			'kj_simple_button_font_size', 
 			__( 'Font size', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_font_size_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_style' 
+		);
+		add_settings_field( 
+			'kj_simple_button_font_weight', 
+			__( 'Font weight', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_font_weight_field_render'), 
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_style' 
 		);
@@ -515,6 +534,13 @@ EOD;
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_misc',
 			array('class' => $advanced_mode_class) 
+		);
+		add_settings_field( 
+			'kj_simple_button_content_type_field', 
+			__( 'Content type', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_content_type_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_misc' 
 		);
 		add_settings_field( 
 			'kj_simple_button_content_field', 
@@ -681,6 +707,17 @@ EOD;
 			<option value='rem' <?php selected( $font_size_unit, 'rem' ); ?>>rem</option>
 		</select>
 		<p><em>Font size</em></p>
+		<?php
+
+	}
+	
+	public function kj_simple_button_font_weight_field_render(  ) { 
+
+
+		$font_weight = $this->kj_simple_button_get_option('kj_simple_button_font_weight_value');
+		?>
+		<input type='number' name='kj_simple_button_settings[kj_simple_button_font_weight_value]' min='100' max='900' step='100' value=<?php echo esc_attr($font_weight); ?>>
+		<p><em>Font weight, 100-300 - light, 400-600 - normal, 700-900 - bold. Default: 400.</em></p>
 		<?php
 
 	}
@@ -1111,6 +1148,28 @@ EOD;
 		<?php
 
 	}
+	
+	public function kj_simple_button_content_type_field_render(  ) { 
+
+		$content_type = $this->kj_simple_button_get_option('kj_simple_button_content_type');
+		
+		?>
+		<select name='kj_simple_button_settings[kj_simple_button_content_type]' > 
+			<option value='text' <?php selected( $content_type, 'text' ); ?>>text</option>
+			<option value='image' <?php selected( $content_type, 'image' ); ?>>image</option>
+			<option value='icon' <?php selected($content_type, 'icon'); ?>>icon</option>
+		</select> (<em>text</em> is default)
+		
+		<p><em>Type of content:</em>
+		<ul>
+		<li><em>text - no HTML allowed, tags will be stripped</em></li>
+		<li><em>image - please enter image url</em></li>
+		<li><em>icon - please enter dashicon class from <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">dashicons page</a> eg <strong>dashicons-editor-italic</strong>.</em></li>
+		</ul>
+		</p>
+		<?php
+
+	}
 
 	public function kj_simple_button_content_field_render(  ) { 
 
@@ -1165,6 +1224,7 @@ EOD;
 			"kj_simple_button_text_align_value" => "text", 
 			"kj_simple_button_font_size_value" => "number_non_negative", 
 			"kj_simple_button_font_size_unit" => "text",
+			"kj_simple_button_font_weight_value" => "number_non_negative",
 			"kj_simple_button_font_family_main" => "text",
 			"kj_simple_button_font_family_fallback" => "text",
 			"kj_simple_button_font_color" => "color",
@@ -1231,6 +1291,7 @@ EOD;
 			"kj_simple_button_href_value" => "text", 
 			"kj_simple_button_rel_value" => "text", 
 			"kj_simple_button_target_value" => "text", 
+			"kj_simple_button_content_type" => "text",
 			"kj_simple_button_content_value" => "text",
 			"kj_simple_button_title_value" => "text",
 			"kj_simple_button_disabled_posts" => "text"
