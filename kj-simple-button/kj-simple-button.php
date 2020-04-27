@@ -101,7 +101,10 @@ class KJ_Simple_Button {
 		"kj_simple_button_content_type" => "text",
 		"kj_simple_button_content_value" => "",
 		"kj_simple_button_title_value" => "",
-		"kj_simple_button_disabled_posts" => "");
+		"kj_simple_button_disabled_posts" => "",
+		
+		"kj_simple_button_enqueue" => "external",
+		"kj_simple_button_hook" => "hook1");
 		
 	static $can_be_empty = array(
 			"kj_simple_button_background_color",
@@ -125,7 +128,12 @@ class KJ_Simple_Button {
 		add_action( 'admin_init', array($this, 'kj_simple_button_settings_init') );
 		add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), array($this, 'kj_simple_button_add_plugin_page_settings_link') );
 		add_action( 'update_option_kj_simple_button_settings' , array($this, 'kj_simple_button_update_stylesheet') , 10 , 3);
-		add_action( 'wp_footer' , array($this, 'kj_simple_button_append_button') );
+		if($this->plugin_options["kj_simple_button_hook"]  === "shortcode"){
+			add_shortcode( 'kj_simple_button_shortcode', array($this, 'kj_simple_button_append_shortcode') ); 
+		} else {
+			add_action( 'wp_footer' , array($this, 'kj_simple_button_append_button') );
+		}
+		
 		register_activation_hook(__FILE__, array($this, 'kj_simple_button_activate'));
 		
     }
@@ -139,16 +147,7 @@ class KJ_Simple_Button {
 	public static function kj_simple_button_activate() {
 		
 		register_uninstall_hook(__FILE__, 'kj_simple_button_uninstall' );
-		if(!file_exists( plugin_dir_path(__FILE__) . "assets/css/custom-style.css" )){
-			$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
-			$creation_date = date('Y-m-d H:i:s', strtotime(current_time('mysql')));
-			$css_header = <<< EOD
-/* THIS FILE IS GENERATED AUTOMATICALLY VIA PLUGIN, DO NOT EDIT */
-/* GENERATED: $creation_date */
-EOD;
-			fwrite($handle, $css_header);
-			fclose($handle);
-		}
+
 		$default_options = self::$default_options;
 		$current_options = $this->plugin_options;
 		if(isset($current_options) && (!empty($current_options))){
@@ -160,8 +159,12 @@ EOD;
 				}
 				update_option( "kj_simple_button_settings", $current_options );
 			}
+			if($current_options['kj_simple_button_enqueue'] === 'external' ){
+				$this->kj_simple_button_update_stylesheet();
+			} 
 		} else {
 			add_option( "kj_simple_button_settings" , $default_options);
+			$this->kj_simple_button_update_stylesheet();
 		}
 		
 		
@@ -172,11 +175,17 @@ EOD;
 	}
 
 	public function kj_simple_button_update_stylesheet() {
+		$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
+		$css_content = $this->kj_simple_button_generate_css();
+		fwrite($handle, $css_content);
+		fclose($handle);
+	}
+	
+	public function kj_simple_button_generate_css() {
 		$this->plugin_options = get_option( "kj_simple_button_settings" );
 		$browser_prefixes = array("-webkit-", "-moz-", "-ms-", "-o-", "");
-		$handle = fopen(plugin_dir_path(__FILE__) . "assets/css/custom-style.css", "w");
+		
 		$css_content = <<< EOD
-/* THIS FILE IS GENERATED AUTOMATICALLY VIA PLUGIN OPTIONS, DO NOT EDIT */
 a#kj-simple-button{position:fixed;z-index:9999;text-decoration:none;
 EOD;
 		
@@ -255,15 +264,21 @@ EOD;
 		
 		$css_content .= "#kj-simple-button span.dashicons{line-height:inherit;font-style:inherit;font-size:inherit;font-weight:inherit;	text-align:inherit;height:100%;width:100%;}#kj-simple-button img{border-radius:inherit;border:inherit;height:100%;width:100%;}";
 		
-		fwrite($handle, $css_content);
-
-		fclose($handle);
+		return $css_content;
 
 	}
 
     public function kj_simple_button_enqueue_scripts() {
 		wp_enqueue_style( 'dashicons' );
-		wp_enqueue_style('KJ_Simple_Button_custom', plugins_url('assets/css/custom-style.css', __FILE__), null, '');
+		if($this->kj_simple_button_get_option('kj_simple_button_enqueue') === 'inline'){
+			wp_register_style( 'KJ_Simple_Button_inline', false );
+			wp_enqueue_style( 'KJ_Simple_Button_inline' );
+			$css_content = $this->kj_simple_button_generate_css();
+			wp_add_inline_style( 'KJ_Simple_Button_inline', $css_content );
+		}else{
+			wp_enqueue_style('KJ_Simple_Button_custom', plugins_url('assets/css/custom-style.css', __FILE__), null, '');
+		}
+		
 
 	}
 	
@@ -308,6 +323,34 @@ EOD;
 			echo !empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '' ;
 		}
 		echo '</a>';
+		
+	}
+	
+	public function kj_simple_button_append_shortcode($atts){
+		global $post;
+		$current_options = $this->plugin_options;
+		
+		$disabled_ids = explode(",", $current_options['kj_simple_button_disabled_posts']);
+		if(!isset($current_options['kj_simple_button_btn_active']) || $current_options['kj_simple_button_btn_active'] !== '1' || (isset($post) && in_array($post->ID, $disabled_ids))){
+			return false;
+		}
+		$output = '<!-- #kj-simple-button -->';
+		$output .= '<a ';
+		$output .=  !empty($this->kj_simple_button_get_option('kj_simple_button_href_value')) ? 'href="' . $this->kj_simple_button_get_option('kj_simple_button_href_value') . '" ' : '' ;
+		$output .=  !empty($this->kj_simple_button_get_option('kj_simple_button_rel_value')) ? 'rel="' . $this->kj_simple_button_get_option('kj_simple_button_rel_value') . '" ' : '' ;
+		$output .=  !empty($this->kj_simple_button_get_option('kj_simple_button_target_value')) ? 'target="' . $this->kj_simple_button_get_option('kj_simple_button_target_value') . '" ' : '' ;
+		$output .=  !empty($this->kj_simple_button_get_option('kj_simple_button_title_value')) ? 'title="' . $this->kj_simple_button_get_option('kj_simple_button_title_value') . '" ' : '' ;
+		$output .=  'id="kj-simple-button" >';
+		$content_type = $this->kj_simple_button_get_option('kj_simple_button_content_type');
+		if($content_type === 'image'){
+			$output .=  '<img src="' . (!empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '') . '"/>' ;
+		} elseif($content_type === 'icon'){
+			$output .=  '<span class="dashicons ' . (!empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '') . '"></span>' ;
+		} else{
+			$output .=  !empty($this->kj_simple_button_get_option('kj_simple_button_content_value')) ? $this->kj_simple_button_get_option('kj_simple_button_content_value') : '' ;
+		}
+		$output .=  '</a>';
+		return $output;
 	}
 
 	public function kj_simple_button_get_option($option_name) {
@@ -561,6 +604,27 @@ EOD;
 			'kjSettingsPage', 
 			'kj_simple_button_kjSettingsPage_section_misc',
 			array('class' => $advanced_mode_class) 
+		);
+		add_settings_section(
+			'kj_simple_button_kjSettingsPage_section_troubleshooting', 
+			__( 'Troubleshooting', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_settings_section_callback'), 
+			'kjSettingsPage' 
+		);
+		add_settings_field( 
+			'kj_simple_button_enqueue_field', 
+			__( 'Style enqueueing method', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_enqueue_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_troubleshooting' 
+		);
+		add_settings_field( 
+			'kj_simple_button_hook_field', 
+			__( 'Hook', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_hook_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_troubleshooting'
+			
 		);
 	}
 	
@@ -1201,6 +1265,36 @@ EOD;
 		<?php
 
 	}
+	
+	public function kj_simple_button_enqueue_field_render(  ) { 
+
+		$enqueue = $this->kj_simple_button_get_option('kj_simple_button_enqueue');
+		
+		?>
+		<select name='kj_simple_button_settings[kj_simple_button_enqueue]' > 
+			<option value='external' <?php selected( $enqueue, 'external' ); ?>>External CSS file</option>
+			<option value='inline' <?php selected( $enqueue, 'inline' ); ?>>Inline CSS in head</option>
+		</select>
+		<p><em>Change this setting to <strong>inline</strong> when button style doesn't get updated or loaded.</em></p>
+
+		<?php
+
+	}
+	
+	public function kj_simple_button_hook_field_render(  ) { 
+
+		$hook = $this->kj_simple_button_get_option('kj_simple_button_hook');
+		
+		?>
+		<select name='kj_simple_button_settings[kj_simple_button_hook]' > 
+			<option value='wp_footer' <?php selected( $hook, 'wp_footer' ); ?>>wp_footer</option>
+			<option value='shortcode' <?php selected( $hook, 'shortcode' ); ?>>shortcode</option>
+		</select>
+		<p><em>Change this setting to <strong>shortcode</strong> when button doesn't appear - it will be included to a page within a shortcode: <code>[kj_simple_button_shortcode]</code>. Then manually put this shortcode everywhere you want to display button, eg. at the bottom of page content or in text widget in sidebar, footer etc.</em></p>
+
+		<?php
+
+	}
 
 	public function kj_simple_button_settings_validation($input) {
 		$default_options  = self::$default_options;
@@ -1292,7 +1386,10 @@ EOD;
 			"kj_simple_button_content_type" => "text",
 			"kj_simple_button_content_value" => "text",
 			"kj_simple_button_title_value" => "text",
-			"kj_simple_button_disabled_posts" => "text"
+			"kj_simple_button_disabled_posts" => "text",
+			
+			"kj_simple_button_enqueue" => "text",
+			"kj_simple_button_hook" => "text"
 		);
 		$empty_values = array();
 		$bad_values = array();
