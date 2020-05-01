@@ -1221,14 +1221,7 @@ EOD;
 			<option value='image' <?php selected( $content_type, 'image' ); ?>>image</option>
 			<option value='icon' <?php selected($content_type, 'icon'); ?>>icon</option>
 		</select> (<em>text</em> is default)
-		
-		<p><em>Type of content:</em>
-		<ul>
-		<li><em>text - no HTML allowed, tags will be stripped</em></li>
-		<li><em>image - please enter image url</em></li>
-		<li><em>icon - please enter dashicon class from <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">dashicons page</a> eg <strong>dashicons-editor-italic</strong>.</em></li>
-		</ul>
-		</p>
+
 		<?php
 
 	}
@@ -1239,7 +1232,14 @@ EOD;
 		
 		?>
 		<input type='text' name='kj_simple_button_settings[kj_simple_button_content_value]' value="<?php echo esc_attr($content); ?>"> (leave empty if don't need this)
-		<p><em>Text inside button, eg. <strong>Check this out!</strong></em></p>
+		<p id="content-selected-icon-container">Selected icon: <span id="content-selected-icon"></span></p>
+		<p><em>Type of content:</em>
+		<ul>
+		<li><em>text - no HTML allowed, tags will be stripped, eg. <strong>Check this out!</strong></em></li>
+		<li><em>image - please enter image url, eg. <strong>https://MY-WEBSITE.COM/image.png</strong></em></li>
+		<li><em>icon - please enter dashicon class from <a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">dashicons page</a> eg. <strong>dashicons-editor-italic</strong>.</em></li>
+		</ul>
+		</p>
 		<?php
 
 	}

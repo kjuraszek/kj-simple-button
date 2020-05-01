@@ -1,5 +1,20 @@
 jQuery(document).ready(function($){
 	
+	function render_icon(){
+		if (jQuery('select[name="kj_simple_button_settings[kj_simple_button_content_type]"]').val() === 'icon'){
+			let selected_icon = jQuery('input[name="kj_simple_button_settings[kj_simple_button_content_value]"]').val();
+			jQuery('#content-selected-icon-container').fadeIn();
+			if(/^dashicons\-[a-z0-9\-]*$/.test(selected_icon)) {
+				jQuery('#content-selected-icon').attr('class', 'dashicons ' + selected_icon);
+			} else {
+				jQuery('#content-selected-icon').removeClass();
+			}	
+		} else {
+			jQuery('#content-selected-icon-container').fadeOut();
+			jQuery('#content-selected-icon').removeClass();
+		}
+	}
+	
 	jQuery('.kj_simple_button_color_picker').wpColorPicker();
 	jQuery('.select_with_auto_option').each(function(index, el){
 
@@ -27,6 +42,8 @@ jQuery(document).ready(function($){
 		}		
 	});
 	
+	render_icon();
+	
 	jQuery('.button-set-for-all').click(function(e){
 		if(e.target.attributes["button-for"].value){
 			const t = e.target.attributes["button-for"].value;
@@ -49,7 +66,11 @@ jQuery(document).ready(function($){
 		};
 	});
 	
-	jQuery('input[name="kj_simple_button_settings[kj_simple_button_advanced_mode]').change(function(e){
+	jQuery('select[name="kj_simple_button_settings[kj_simple_button_content_type]"]').on('change', render_icon);
+	
+	jQuery('input[name="kj_simple_button_settings[kj_simple_button_content_value]"]').on('change keyup', render_icon);
+	
+	jQuery('input[name="kj_simple_button_settings[kj_simple_button_advanced_mode]"]').change(function(e){
 		if(e.target.checked){
 			jQuery('tr.advanced-option').fadeIn();
 		} else{
