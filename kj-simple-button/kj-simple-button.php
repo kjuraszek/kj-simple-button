@@ -107,6 +107,8 @@ class KJ_Simple_Button {
 		"kj_simple_button_hook" => "hook1");
 		
 	static $can_be_empty = array(
+			"kj_simple_button_btn_active", 
+			"kj_simple_button_advanced_mode", 
 			"kj_simple_button_background_color",
 			"kj_simple_button_border_color",
 			"kj_simple_button_hover_background_color",
