@@ -1401,6 +1401,8 @@ EOD;
 				if(empty($value) && (string)$value !==  "0" && !in_array($option, $can_be_empty)){
 					array_push($empty_values, str_replace("kj_simple_button_", "", $option));
 					$validated_input[$option] = $default_options[$option];
+				} elseif(empty($value) && in_array($option, $can_be_empty)){
+					$validated_input[$option] = $value;
 				} else {
 
 					if(array_key_exists($option, $option_types )){
