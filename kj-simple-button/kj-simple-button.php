@@ -158,7 +158,7 @@ class KJ_Simple_Button {
 		if(isset($current_options) && (!empty($current_options))){
 			if(!empty(array_diff_key($default_options, $current_options))){
 				foreach($default_options as $key => $value){
-					if(!isset($current_options[$key])){
+					if(!isset($current_options[$key]) && !in_array($key, self::$can_be_empty)){
 						$current_options[$key] = $value;
 					}
 				}
