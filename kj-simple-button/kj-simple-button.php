@@ -17,7 +17,7 @@ class KJ_Simple_Button {
 	static $instance = false;
 	static $default_options = array(
 		"kj_simple_button_btn_active" => 1, 
-		"kj_simple_button_advanced_mode" => 0, 
+		"kj_simple_button_advanced_mode" => 0,
 		"kj_simple_button_height_value" => 100, 
 		"kj_simple_button_height_unit" => "px", 
 		"kj_simple_button_width_value" => 100, 
@@ -99,12 +99,12 @@ class KJ_Simple_Button {
 		"kj_simple_button_rel_value" => "", 
 		"kj_simple_button_target_value" => "", 
 		"kj_simple_button_content_type" => "text",
-		"kj_simple_button_content_value" => "",
+		"kj_simple_button_content_value" => "KJ Simple Button",
 		"kj_simple_button_title_value" => "",
 		"kj_simple_button_disabled_posts" => "",
 		
 		"kj_simple_button_enqueue" => "external",
-		"kj_simple_button_hook" => "hook1");
+		"kj_simple_button_hook" => "wp_footer");
 		
 	static $can_be_empty = array(
 			"kj_simple_button_btn_active", 
@@ -123,6 +123,7 @@ class KJ_Simple_Button {
 		
 		
     public function __construct() {
+		$this->kj_simple_button_check_options();
 		$this->plugin_options = get_option( "kj_simple_button_settings" );
 		add_action( 'wp_enqueue_scripts', array( $this, 'kj_simple_button_enqueue_scripts') );
 		add_action( 'admin_enqueue_scripts', array( $this, 'kj_simple_button_admin_enqueue_scripts') );
@@ -146,12 +147,14 @@ class KJ_Simple_Button {
 		return self::$instance;
 	}
 	
-	public static function kj_simple_button_activate() {
-		
-		register_uninstall_hook(__FILE__, 'kj_simple_button_uninstall' );
+	public static function kj_simple_button_activate() {		
+		register_uninstall_hook(__FILE__, 'kj_simple_button_uninstall' );	
+	}
+	
+	public function kj_simple_button_check_options() {
 
 		$default_options = self::$default_options;
-		$current_options = $this->plugin_options;
+		$current_options = get_option( "kj_simple_button_settings" );
 		if(isset($current_options) && (!empty($current_options))){
 			if(!empty(array_diff_key($default_options, $current_options))){
 				foreach($default_options as $key => $value){
@@ -167,9 +170,7 @@ class KJ_Simple_Button {
 		} else {
 			add_option( "kj_simple_button_settings" , $default_options);
 			$this->kj_simple_button_update_stylesheet();
-		}
-		
-		
+		}	
 	}
 
 	public static function kj_simple_button_uninstall() {
@@ -653,7 +654,6 @@ EOD;
 		<?php
 
 	}
-
 
 	public function kj_simple_button_height_field_render(  ) { 
 
@@ -1304,7 +1304,7 @@ EOD;
 		
 		$option_types = array(
 			"kj_simple_button_btn_active" => "checkbox", 
-			"kj_simple_button_advanced_mode" => "checkbox", 
+			"kj_simple_button_advanced_mode" => "checkbox",
 			"kj_simple_button_height_value" => "number_non_negative", 
 			"kj_simple_button_height_unit" => "text", 
 			"kj_simple_button_width_value" => "number_non_negative", 
