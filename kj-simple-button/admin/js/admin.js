@@ -102,4 +102,182 @@ jQuery(document).ready(function($){
 			jQuery(this).closest(".hover_group_parent").find("select").prop("disabled", true);
 		}		
 	});
+	jQuery('.load-template-btn').click(function(){
+		let selected_template = jQuery('select[name="kj_simple_button_settings[kj_simple_button_template]"]').val();
+		let template_settings = {};
+		switch(selected_template){
+			case 'facebook':
+				template_settings = {
+
+					"kj_simple_button_height_value" : 48, 
+					"kj_simple_button_height_unit" : "px", 
+					"kj_simple_button_width_value" : 48, 
+					"kj_simple_button_width_unit" : "px",
+					"kj_simple_button_horizontal_position" : "right", 
+					"kj_simple_button_horizontal_position_value" : 0,  
+					"kj_simple_button_horizontal_position_unit" : "px",
+					"kj_simple_button_vertical_position" : "bottom", 
+					"kj_simple_button_vertical_position_value" : 50,  
+					"kj_simple_button_vertical_position_unit" : "%",
+					"kj_simple_button_text_align_value" : "center", 
+					"kj_simple_button_font_size_value" : 40, 
+					"kj_simple_button_font_size_unit" : "px",
+					"kj_simple_button_font_color" : "#ffffff",
+					"kj_simple_button_background_color" : "#4267b2",
+					"kj_simple_button_line_height_value" : 48, 
+					"kj_simple_button_line_height_unit" : "px",
+					"kj_simple_button_opacity_value" : 1,
+					
+					"kj_simple_button_padding_top_value" : 0,
+					"kj_simple_button_padding_top_unit" : "px",
+					"kj_simple_button_padding_right_value" : 0,
+					"kj_simple_button_padding_right_unit" : "px",
+					"kj_simple_button_padding_bottom_value" : 0,
+					"kj_simple_button_padding_bottom_unit" : "px",
+					"kj_simple_button_padding_left_value" : 0,
+					"kj_simple_button_padding_left_unit" : "px",
+					
+					"kj_simple_button_margin_top_value" : 0,
+					"kj_simple_button_margin_top_unit" : "px",
+					"kj_simple_button_margin_right_value" : 0,
+					"kj_simple_button_margin_right_unit" : "px",
+					"kj_simple_button_margin_bottom_value" : 0,
+					"kj_simple_button_margin_bottom_unit" : "px",
+					"kj_simple_button_margin_left_value" : 0,
+					"kj_simple_button_margin_left_unit" : "px",
+					
+					"kj_simple_button_border_value" : 0,
+					
+					"kj_simple_button_border_radius_top_left_value" : 15,
+					"kj_simple_button_border_radius_top_left_unit" : "px",
+					"kj_simple_button_border_radius_top_right_value" : 0,
+					"kj_simple_button_border_radius_top_right_unit" : "px",
+					"kj_simple_button_border_radius_bottom_right_value" : 0,
+					"kj_simple_button_border_radius_bottom_right_unit" : "px",
+					"kj_simple_button_border_radius_bottom_left_value" : 15,
+					"kj_simple_button_border_radius_bottom_left_unit" : "px",
+
+					"kj_simple_button_hover_opacity_change" : 1,
+					"kj_simple_button_hover_opacity_value" : 0.8,
+					
+					"kj_simple_button_href_value" : "https://facebook.com/", 
+					"kj_simple_button_rel_value" : "", 
+					"kj_simple_button_target_value" : "_blank", 
+					"kj_simple_button_content_type" : "icon",
+					"kj_simple_button_content_value" : "dashicons-facebook-alt",
+
+				}
+
+				break;
+			default:	
+				template_settings = {
+					"kj_simple_button_btn_active" : 1, 
+					"kj_simple_button_advanced_mode" : 0, 
+					"kj_simple_button_template" : "default", 
+					"kj_simple_button_height_value" : 100, 
+					"kj_simple_button_height_unit" : "px", 
+					"kj_simple_button_width_value" : 100, 
+					"kj_simple_button_width_unit" : "px",
+					"kj_simple_button_horizontal_position" : "left", 
+					"kj_simple_button_horizontal_position_value" : 0,  
+					"kj_simple_button_horizontal_position_unit" : "px",
+					"kj_simple_button_vertical_position" : "bottom", 
+					"kj_simple_button_vertical_position_value" : 0,  
+					"kj_simple_button_vertical_position_unit" : "px",
+					"kj_simple_button_text_align_value" : "center", 
+					"kj_simple_button_font_size_value" : 12, 
+					"kj_simple_button_font_size_unit" : "px",
+					"kj_simple_button_font_weight_value" : 400, 
+					"kj_simple_button_font_family_main" : "Arial Black",
+					"kj_simple_button_font_family_fallback" : "sans-serif",
+					"kj_simple_button_font_color" : "#ffffff",
+					"kj_simple_button_background_color" : "#2d2d2d",
+					"kj_simple_button_line_height_value" : 16, 
+					"kj_simple_button_line_height_unit" : "px",
+					"kj_simple_button_opacity_value" : 1,
+					
+					"kj_simple_button_padding_top_value" : 5,
+					"kj_simple_button_padding_top_unit" : "px",
+					"kj_simple_button_padding_right_value" : 5,
+					"kj_simple_button_padding_right_unit" : "px",
+					"kj_simple_button_padding_bottom_value" : 5,
+					"kj_simple_button_padding_bottom_unit" : "px",
+					"kj_simple_button_padding_left_value" : 5,
+					"kj_simple_button_padding_left_unit" : "px",
+					
+					"kj_simple_button_margin_top_value" : 5,
+					"kj_simple_button_margin_top_unit" : "px",
+					"kj_simple_button_margin_right_value" : 5,
+					"kj_simple_button_margin_right_unit" : "px",
+					"kj_simple_button_margin_bottom_value" : 5,
+					"kj_simple_button_margin_bottom_unit" : "px",
+					"kj_simple_button_margin_left_value" : 5,
+					"kj_simple_button_margin_left_unit" : "px",
+					
+					"kj_simple_button_border_value" : 0,
+					"kj_simple_button_border_unit" : "px",
+					"kj_simple_button_border_style" : "solid",
+					"kj_simple_button_border_color" : "#d8e2ff",
+					
+					"kj_simple_button_border_radius_top_left_value" : 0,
+					"kj_simple_button_border_radius_top_left_unit" : "px",
+					"kj_simple_button_border_radius_top_right_value" : 0,
+					"kj_simple_button_border_radius_top_right_unit" : "px",
+					"kj_simple_button_border_radius_bottom_right_value" : 0,
+					"kj_simple_button_border_radius_bottom_right_unit" : "px",
+					"kj_simple_button_border_radius_bottom_left_value" : 0,
+					"kj_simple_button_border_radius_bottom_left_unit" : "px",
+					
+					"kj_simple_button_resolution_max_575" : 1,
+					"kj_simple_button_resolution_min_576" : 1,
+					"kj_simple_button_resolution_min_768" : 1,
+					"kj_simple_button_resolution_min_992" : 1,
+					"kj_simple_button_resolution_min_1200" : 1,
+					
+					"kj_simple_button_transition_duration" : 0,
+					"kj_simple_button_transition_timing_function" : "linear",
+					"kj_simple_button_transition_delay" : 0,
+					
+					"kj_simple_button_hover_font_color_change" : 0,
+					"kj_simple_button_hover_font_color" : "#ffffff",
+					"kj_simple_button_hover_background_color_change" : 0,
+					"kj_simple_button_hover_background_color" : "#2d2d2d",
+					"kj_simple_button_hover_opacity_change" : 0,
+					"kj_simple_button_hover_opacity_value" : 1,
+					"kj_simple_button_hover_border_change" : 0,
+					"kj_simple_button_hover_border_value" : 0,
+					"kj_simple_button_hover_border_unit" : "px",
+					"kj_simple_button_hover_border_style" : "solid",
+					"kj_simple_button_hover_border_color" : "#d8e2ff",
+					
+					"kj_simple_button_href_value" : "#", 
+					"kj_simple_button_rel_value" : "", 
+					"kj_simple_button_target_value" : "", 
+					"kj_simple_button_content_type" : "text",
+					"kj_simple_button_content_value" : "KJ Simple Button",
+					"kj_simple_button_title_value" : "",
+					"kj_simple_button_disabled_posts" : "",
+					
+					"kj_simple_button_enqueue" : "external",
+					"kj_simple_button_hook" : "wp_footer"
+				}	
+			}
+			for (let key in template_settings) {
+				if (template_settings.hasOwnProperty(key)) {
+					if(jQuery('select[name="kj_simple_button_settings['+key+']"]').length === 1){
+						jQuery('select[name="kj_simple_button_settings['+key+']"]').val(template_settings[key]).trigger('change');
+					} else if(jQuery('input[name="kj_simple_button_settings['+key+']"]').length === 1){
+						jQuery('input[name="kj_simple_button_settings['+key+']"]').val(template_settings[key]).trigger('change');
+						if(jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('type') === 'checkbox'){
+							if(template_settings[key] === 1){
+								jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('checked', true);
+							} else {
+								jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('checked', false);
+							}
+						}
+					}
+				}
+			}
+			
+		})
 });

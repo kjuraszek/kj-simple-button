@@ -17,7 +17,8 @@ class KJ_Simple_Button {
 	static $instance = false;
 	static $default_options = array(
 		"kj_simple_button_btn_active" => 1, 
-		"kj_simple_button_advanced_mode" => 0,
+		"kj_simple_button_advanced_mode" => 0, 
+		"kj_simple_button_template" => "default", 
 		"kj_simple_button_height_value" => 100, 
 		"kj_simple_button_height_unit" => "px", 
 		"kj_simple_button_width_value" => 100, 
@@ -402,6 +403,20 @@ EOD;
 			'kj_simple_button_kjSettingsPage_section_main'
 		);
 		add_settings_section(
+			'kj_simple_button_kjSettingsPage_section_template', 
+			__( 'Template', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_settings_section_callback'), 
+			'kjSettingsPage'
+		);
+		
+		add_settings_field( 
+			'kj_simple_button_btn_template_field', 
+			__( 'Select template', 'kj-simple-button' ), 
+			array($this, 'kj_simple_button_template_field_render'), 
+			'kjSettingsPage', 
+			'kj_simple_button_kjSettingsPage_section_template' 
+		);
+		add_settings_section(
 			'kj_simple_button_kjSettingsPage_section_style', 
 			__( 'Style settings', 'kj-simple-button' ), 
 			array($this, 'kj_simple_button_settings_section_callback'), 
@@ -654,6 +669,22 @@ EOD;
 		<?php
 
 	}
+	
+	function kj_simple_button_template_field_render(  ) { 
+	
+		$template = $this->kj_simple_button_get_option('kj_simple_button_template');
+
+		?>
+
+		<select name='kj_simple_button_settings[kj_simple_button_template]'> 
+			<option value='default' <?php selected( $template, 'default' ); ?>>default (reset settings)</option>
+			<option value='facebook' <?php selected( $template, 'facebook' ); ?>>facebook</option>
+		</select> <a class="button-secondary load-template-btn" button-for="template" >Load template</a>
+		<p><em>Select template and click buttton to load. <strong>Warning!</strong> Some of current options will be overwritten!</em></p><br>
+		<?php
+
+	}
+
 
 	public function kj_simple_button_height_field_render(  ) { 
 
@@ -1304,7 +1335,8 @@ EOD;
 		
 		$option_types = array(
 			"kj_simple_button_btn_active" => "checkbox", 
-			"kj_simple_button_advanced_mode" => "checkbox",
+			"kj_simple_button_advanced_mode" => "checkbox", 
+			"kj_simple_button_template" => "text", 
 			"kj_simple_button_height_value" => "number_non_negative", 
 			"kj_simple_button_height_unit" => "text", 
 			"kj_simple_button_width_value" => "number_non_negative", 
