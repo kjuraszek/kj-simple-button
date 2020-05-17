@@ -112,6 +112,11 @@ class KJ_Simple_Button {
 			"kj_simple_button_advanced_mode", 
 			"kj_simple_button_background_color",
 			"kj_simple_button_border_color",
+			"kj_simple_button_resolution_max_575",
+			"kj_simple_button_resolution_min_576",
+			"kj_simple_button_resolution_min_768",
+			"kj_simple_button_resolution_min_992",
+			"kj_simple_button_resolution_min_1200",
 			"kj_simple_button_hover_background_color",
 			"kj_simple_button_hover_border_color",
 			"kj_simple_button_href_value", 
@@ -171,7 +176,8 @@ class KJ_Simple_Button {
 		} else {
 			add_option( "kj_simple_button_settings" , $default_options);
 			$this->kj_simple_button_update_stylesheet();
-		}	
+		}
+				
 	}
 
 	public static function kj_simple_button_uninstall() {
@@ -372,15 +378,17 @@ EOD;
 	}
 
 	public function kj_simple_button_settings_init(  ) {
-			
+		
 		$current_options = $this->plugin_options;
 		$advanced_mode_class = (!isset($current_options['kj_simple_button_advanced_mode']) || $current_options['kj_simple_button_advanced_mode'] !== '1') ? 'hidden advanced-option' : 'advanced-option';
+			
 		
 		register_setting( 
 		'kjSettingsPage', 
 		'kj_simple_button_settings',
 		array($this, 'kj_simple_button_settings_validation')
 		);
+		
 		add_settings_section(
 			'kj_simple_button_kjSettingsPage_section_main', 
 			__( 'Main settings', 'kj-simple-button' ), 
@@ -1509,6 +1517,22 @@ EOD;
 				"error"
 			);
 		}
+		
+		$resolution_options = array(
+			$validated_input["kj_simple_button_resolution_max_575"],
+			$validated_input["kj_simple_button_resolution_min_576"],
+			$validated_input["kj_simple_button_resolution_min_768"],
+			$validated_input["kj_simple_button_resolution_min_992"],
+			$validated_input["kj_simple_button_resolution_min_1200"]
+			);
+		if(!in_array(1, $resolution_options)){
+			add_settings_error(
+				'kj_simple_button_errors',
+				esc_attr( 'settings_updated_warning' ),
+				"Warning! Button is disabled for all screen resolutions - it will not appear on a page.",
+				"warning"
+			);
+		}
 
 		return $validated_input;
 	} 
@@ -1516,6 +1540,21 @@ EOD;
 	public function kj_simple_button_settings_section_callback(  ) { 
 		// callback
 		echo __( '', 'kj-simple-button' );
+		$resolution_options = array(
+			$this->kj_simple_button_get_option("kj_simple_button_resolution_max_575"),
+			$this->kj_simple_button_get_option("kj_simple_button_resolution_min_576"),
+			$this->kj_simple_button_get_option("kj_simple_button_resolution_min_768"),
+			$this->kj_simple_button_get_option("kj_simple_button_resolution_min_992"),
+			$this->kj_simple_button_get_option("kj_simple_button_resolution_min_1200")
+			);
+		if(!in_array(1, $resolution_options)){
+			add_settings_error(
+				'kj_simple_button_errors',
+				esc_attr( 'settings_updated_warning' ),
+				"Warning!",
+				"warning"
+			);
+		}
 
 	}
 

@@ -270,9 +270,9 @@ jQuery(document).ready(function($){
 						jQuery('input[name="kj_simple_button_settings['+key+']"]').val(template_settings[key]).trigger('change');
 						if(jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('type') === 'checkbox'){
 							if(template_settings[key] === 1){
-								jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('checked', true);
+								jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('checked', true).trigger('change');
 							} else {
-								jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('checked', false);
+								jQuery('input[name="kj_simple_button_settings['+key+']"]').attr('checked', false).trigger('change');
 							}
 						}
 					}
